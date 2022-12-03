@@ -1,5 +1,6 @@
 package bruhcollective.itaysonlab.jetispot.ui.screens.history
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -8,6 +9,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import bruhcollective.itaysonlab.jetispot.R
 import bruhcollective.itaysonlab.jetispot.core.SpPlayerServiceManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
+import bruhcollective.itaysonlab.jetispot.core.api.test_feed.SpApiManager
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubItem
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubResponse
 import bruhcollective.itaysonlab.jetispot.core.objs.player.PlayFromContextData
 import bruhcollective.itaysonlab.jetispot.ui.hub.HubScreenDelegate
 import bruhcollective.itaysonlab.jetispot.ui.screens.hub.AbsHubViewModel
@@ -34,14 +38,24 @@ fun ListeningHistoryScreen(
         reloadFunc = { scope.launch { viewModel.reload() } },
         toolbarOptions = ToolbarOptions(big = true, alwaysVisible = true)
     )
+
+    Text(text = viewModel.feedResponse?.body.toString())
 }
 
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
+    private val api: SpApiManager,
     private val spInternalApi: SpInternalApi,
     private val spPlayerServiceManager: SpPlayerServiceManager
 ) : AbsHubViewModel(), HubScreenDelegate {
+
+    //create an empty list of hubitems
+    val hubItems = mutableListOf<HubItem>()
+    var feedResponse: HubResponse = HubResponse("", null, hubItems, "")
+
     suspend fun load() = load {
+        val feed_repsonse  = api.internal.getHomeView()
+        feedResponse = feed_repsonse
       spInternalApi.getListeningHistory()
     }
 
