@@ -63,7 +63,7 @@ fun NowPlayingHeader(
       )
     }
 
-    IconButton(onClick = { /*TODO*/ }, Modifier.size(32.dp)) {
+    IconButton(onClick = {  }, Modifier.size(32.dp)) {
       Icon(imageVector = Icons.Rounded.MoreVert, tint = Color.White, contentDescription = null)
     }
   }

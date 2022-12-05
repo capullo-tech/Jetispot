@@ -5,8 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.BottomSheetState
-import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -26,6 +25,7 @@ fun NowPlayingScreen(
   setQueueOpened: (Boolean) -> Unit,
   lyricsOpened: Boolean,
   setLyricsOpened: (Boolean) -> Unit,
+  moreOptionsDrawerState: ModalBottomSheetState,
   viewModel: NowPlayingViewModel = hiltViewModel()
 ) {
   val scope = rememberCoroutineScope()
@@ -37,6 +37,7 @@ fun NowPlayingScreen(
       lyricsOpened = lyricsOpened,
       setLyricsOpened = setLyricsOpened,
       bottomSheetState = bottomSheetState,
+      moreOptionsDialogState = moreOptionsDrawerState,
       viewModel = viewModel
     )
 

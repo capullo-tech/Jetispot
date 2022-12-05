@@ -62,7 +62,9 @@ fun NowPlayingControls(
 private fun ControlsArtwork(
     viewModel: NowPlayingViewModel,
 ) {
-    ElevatedCard(modifier = Modifier.padding(horizontal = 14.dp).clip(RoundedCornerShape(12.dp))) {
+    ElevatedCard(modifier = Modifier
+        .padding(horizontal = 14.dp)
+        .clip(RoundedCornerShape(12.dp))) {
         PreviewableAsyncImage(
             imageUrl = remember(viewModel.currentTrack.value) {
                 if (viewModel.currentQueue.value.isNotEmpty()) {
@@ -97,10 +99,11 @@ private fun ControlsHeader(
             },
         fontSize = 24.sp, color = Color.White,
     )
-    
+
     Spacer(Modifier.height(2.dp))
-    
-    Text(text = viewModel.currentTrack.value.artist,
+
+    Text(
+        text = viewModel.currentTrack.value.artist,
         modifier = Modifier
             .padding(horizontal = 14.dp)
             .navClickable(
@@ -114,6 +117,13 @@ private fun ControlsHeader(
         color = Color.White.copy(alpha = 0.7f)
     )
 }
+//remember(viewModel.currentTrack.value) {
+//                if (viewModel.currentQueue.value.isNotEmpty()) {
+//                    SpUtils.getImageUrl(viewModel.currentQueue.value[viewModel.currentQueuePosition.value].album.coverGroup.imageList.find { it.size == Metadata.Image.Size.LARGE }?.fileId)
+//                } else {
+//                    null
+//                }
+//            }
 
 @Composable
 private fun ControlsSeekbar(
@@ -122,31 +132,37 @@ private fun ControlsSeekbar(
     var isSeekbarDragging by remember { mutableStateOf(false) }
     var seekbarDraggingProgress by remember { mutableStateOf(0f) }
 
-    val elapsedTime = remember(viewModel.currentPosition.value, isSeekbarDragging, seekbarDraggingProgress) {
-        val ms = if (isSeekbarDragging) {
-            (seekbarDraggingProgress * viewModel.currentTrack.value.duration).toLong()
-        } else {
-            viewModel.currentPosition.value.progressMilliseconds
-        } / 1000L
+    val elapsedTime =
+        remember(viewModel.currentPosition.value, isSeekbarDragging, seekbarDraggingProgress) {
+            val ms = if (isSeekbarDragging) {
+                (seekbarDraggingProgress * viewModel.currentTrack.value.duration).toLong()
+            } else {
+                viewModel.currentPosition.value.progressMilliseconds
+            } / 1000L
 
-        DateUtils.formatElapsedTime(ms)
-    }
+            DateUtils.formatElapsedTime(ms)
+        }
 
     val totalTime = remember(viewModel.currentPosition.value) {
         DateUtils.formatElapsedTime(viewModel.currentTrack.value.duration / 1000L)
     }
 
-    Slider(value = if (isSeekbarDragging) seekbarDraggingProgress else viewModel.currentPosition.value.progressRange, colors = SliderDefaults.colors(
-        thumbColor = Color.White,
-        activeTrackColor = Color.White,
-        inactiveTrackColor = Color.White.copy(alpha = 0.5f)
-    ), onValueChange = {
-        isSeekbarDragging = true
-        seekbarDraggingProgress = it
-    }, onValueChangeFinished = {
-        isSeekbarDragging = false
-        viewModel.seekTo((seekbarDraggingProgress * viewModel.currentTrack.value.duration).toLong())
-    }, modifier = Modifier.padding(horizontal = 8.dp))
+    Slider(value = if (isSeekbarDragging) seekbarDraggingProgress else viewModel.currentPosition.value.progressRange,
+        colors = SliderDefaults.colors(
+            thumbColor = Color.White,
+            activeTrackColor = Color.White,
+            inactiveTrackColor = Color.White.copy(alpha = 0.5f)
+        ),
+        onValueChange = {
+            isSeekbarDragging = true
+            seekbarDraggingProgress = it
+        },
+        onValueChangeFinished = {
+            isSeekbarDragging = false
+            viewModel.seekTo((seekbarDraggingProgress * viewModel.currentTrack.value.duration).toLong())
+        },
+        modifier = Modifier.padding(horizontal = 8.dp)
+    )
 
     Row(
         Modifier
@@ -190,7 +206,7 @@ private fun ControlsMainButtons(
                     .align(Alignment.CenterVertically)
             )
         }
-        
+
         Spacer(modifier = Modifier.width(16.dp))
 
         IconButton(
@@ -198,7 +214,10 @@ private fun ControlsMainButtons(
             modifier = Modifier
                 .clip(CircleShape)
                 .size(42.dp),
-            colors = IconButtonDefaults.iconButtonColors(containerColor = Color.White.copy(0.2f), contentColor = Color.White)
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Color.White.copy(0.2f),
+                contentColor = Color.White
+            )
         ) {
             Icon(imageVector = Icons.Rounded.SkipPrevious, contentDescription = null)
         }
@@ -210,7 +229,10 @@ private fun ControlsMainButtons(
             modifier = Modifier
                 .clip(CircleShape)
                 .size(42.dp),
-            colors = IconButtonDefaults.iconButtonColors(containerColor = Color.White.copy(0.2f), contentColor = Color.White)
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Color.White.copy(0.2f),
+                contentColor = Color.White
+            )
         ) {
             Icon(imageVector = Icons.Rounded.SkipNext, contentDescription = null)
         }
@@ -222,7 +244,10 @@ private fun ControlsMainButtons(
             modifier = Modifier
                 .clip(CircleShape)
                 .size(42.dp),
-            colors = IconButtonDefaults.iconButtonColors(containerColor = Color.White.copy(0.2f), contentColor = Color.White)
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Color.White.copy(0.2f),
+                contentColor = Color.White
+            )
         ) {
             Icon(imageVector = Icons.Rounded.FavoriteBorder, contentDescription = null)
         }
@@ -237,7 +262,10 @@ private fun ControlsMainButtons(
                 .onGloballyPositioned { coords ->
                     viewModel.queueButtonParams = coords.positionInRoot()
                 },
-            colors = IconButtonDefaults.iconButtonColors(containerColor = Color.Transparent, contentColor = Color.White)
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = Color.Transparent,
+                contentColor = Color.White
+            )
         ) {
             Icon(imageVector = Icons.Rounded.QueueMusic, contentDescription = null)
         }

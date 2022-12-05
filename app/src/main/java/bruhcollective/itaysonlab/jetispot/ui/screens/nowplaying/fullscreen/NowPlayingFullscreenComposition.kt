@@ -5,6 +5,8 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -26,6 +28,8 @@ fun NowPlayingFullscreenComposition (
   lyricsOpened: Boolean,
   setLyricsOpened: (Boolean) -> Unit,
   bottomSheetState: BottomSheetState,
+  moreOptionsDialogState: ModalBottomSheetState = remember { ModalBottomSheetState(
+    ModalBottomSheetValue.Expanded) },
   viewModel: NowPlayingViewModel
 ) {
   val scope = rememberCoroutineScope()
@@ -71,6 +75,14 @@ fun NowPlayingFullscreenComposition (
         .padding(horizontal = 16.dp)
     )
 
+    MoreOptionsDialog(
+      drawerState = moreOptionsDialogState,
+      onDismiss = {  },
+      artworkUrl = "https://via.placeholder.com/300",
+      title = viewModel.currentTrack.value.title,
+      artist = viewModel.currentTrack.value.artist,
+    )
+
     // composite
 
     if (anySuperProgress != 1f) {
@@ -91,13 +103,17 @@ fun NowPlayingFullscreenComposition (
 
     NowPlayingQueue(
       viewModel = viewModel,
-      modifier = Modifier.fillMaxSize().alpha(1f - lyricsProgressValue),
+      modifier = Modifier
+        .fillMaxSize()
+        .alpha(1f - lyricsProgressValue),
       rvStateProgress = queueProgressValue
     )
 
     NowPlayingLyricsComposition(
       viewModel = viewModel,
-      modifier = Modifier.fillMaxSize().alpha(1f - queueProgressValue),
+      modifier = Modifier
+        .fillMaxSize()
+        .alpha(1f - queueProgressValue),
       rvStateProgress = lyricsProgressValue
     )
   }

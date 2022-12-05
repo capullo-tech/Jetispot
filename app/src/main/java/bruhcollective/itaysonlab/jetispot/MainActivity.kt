@@ -12,11 +12,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetValue
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.rememberBottomSheetScaffoldState
+import androidx.compose.material.*
 import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -83,6 +83,11 @@ class MainActivity : ComponentActivity() {
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        val drawerState: ModalBottomSheetState = ModalBottomSheetState(
+            ModalBottomSheetValue.Hidden,
+            isSkipHalfExpanded = true
+        )
 
         setContent {
             ApplicationTheme {
@@ -213,7 +218,8 @@ class MainActivity : ComponentActivity() {
                                         queueOpened = bsQueueOpened,
                                         setQueueOpened = { bsQueueOpened = it },
                                         lyricsOpened = bsLyricsOpened,
-                                        setLyricsOpened = { bsLyricsOpened = it }
+                                        setLyricsOpened = { bsLyricsOpened = it },
+                                        moreOptionsDrawerState = drawerState,
                                     )
                                 },
                                 scaffoldState = bsState,
