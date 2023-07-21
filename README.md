@@ -9,10 +9,10 @@ A Spotify unofficial client built with Jetpack Compose, Material You/3 and libre
 </div>
 
 ## INFO
-I will be working on Jetispot as soon as I can, but at the moment I'm remaking Spowlo; now it will be a song downloader app (https://github.com/BobbyESP/Spowlo/tree/remake-2). By the moment I finish, I will improve this client. Thank you all!
+I will be working on Jetispot as soon as I can, but at the moment I'm remaking Spowlo; now it will be a song downloader app (https://github.com/BobbyESP/Spowlo/tree/remake-2). Once I finish, I will improve this client. Thank you all!
 
 ## 📣 NOTICE
-Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing or raw file downloading is prohibted by ToS and will NEVER be implemented in Jetispot. Don't waste your time trying to request these features.
+Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw file downloading is prohibted by ToS and will NEVER be implemented in Jetispot. Don't waste your time trying to request these features.
 
 ## 🔮 App features
 - Sign In (login/pass only, no FB/Meta/Google support, no Smart Lock either) 
@@ -40,13 +40,13 @@ Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing or raw 
 
 ## 👷 App specifications
 - Playback: librespot-java as the core + sinks/decoders from librespot-android + Media2 for the mediasession support
-- UI: Jetpack Compose with Material You
+- UI: Jetpack Compose with Material You 3
 - DI: Hilt/Dagger
-- network: Retrofit w/ Moshi + Protobuf converters
-- pictures: Coil
-- storage: Room (collection), MMKV (metadata)
-- arch: MVVM
-- preferences: Jetpack Datastore (proto)
+- Network: Retrofit w/ Moshi + Protobuf converters
+- Pictures: Coil
+- Storage: Room (collection), MMKV (metadata)
+- Arch: MVVM
+- Preferences: Jetpack Datastore (proto)
 
 ## ⬇️ Downloads
 You can go to the [releases page](https://github.com/BobbyESP/Jetispot/releases) and download any version updated.
@@ -59,4 +59,4 @@ You can go to the [releases page](https://github.com/BobbyESP/Jetispot/releases)
 - [MMKV](https://github.com/Tencent/MMKV) for ultra-fast way to cache entity extended metadata
 - Google for Jetpack Compose, Protocol Buffers and Material UI components
 
-_* Some people can actually login without an Spotify Premium account. Assistance to this accounts may be not be provided and you risk yourself for using a free acount. We will not be held responsible for any ban._
+_* Some people can actually login without a Spotify Premium account. Assistance to these accounts may not be provided and you put yourself at risk for using a free acount. We are not responsible for any account bans._
