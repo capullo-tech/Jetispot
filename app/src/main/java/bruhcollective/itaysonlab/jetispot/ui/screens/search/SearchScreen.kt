@@ -42,7 +42,12 @@ import kotlinx.coroutines.launch
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val virtualPagerState = rememberPagerState()
+    val virtualPagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) {
+        2
+    }
     val focusManager = LocalFocusManager.current
     val navController = LocalNavigationController.current
 
@@ -100,14 +105,13 @@ fun SearchScreen(
         }, contentWindowInsets = EmptyWindowInsets
     ) { padding ->
         HorizontalPager(
-            pageCount = 2,
-            state = virtualPagerState,
-            userScrollEnabled = false,
             modifier = Modifier
-                .fillMaxSize()
                 .padding(padding)
-        ) { idx ->
-            when (idx) {
+                .fillMaxSize(),
+            state = virtualPagerState,
+            userScrollEnabled = false
+        ) { index ->
+            when(index) {
                 0 -> HubScreen(loader = SpInternalApi::getBrowseView)
                 1 -> SearchBinder(viewModel.searchResponse, onClick = { type, uri ->
                     when (type) {

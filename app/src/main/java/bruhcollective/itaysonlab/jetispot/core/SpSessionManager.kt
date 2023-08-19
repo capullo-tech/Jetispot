@@ -6,11 +6,10 @@ import com.spotify.connectstate.Connect
 import dagger.hilt.android.qualifiers.ApplicationContext
 import xyz.gianlu.librespot.core.Session
 import java.io.File
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Suppress("BlockingMethodInNonBlockingContext")
 @Singleton
 class SpSessionManager @Inject constructor(
     @ApplicationContext val appContext: Context,

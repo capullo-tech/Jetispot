@@ -87,21 +87,5 @@ fun NowPlayingHeader(
                 fontSize = 14.sp
             )
         }
-
-        Column(
-            Modifier
-                .size(32.dp)
-                .navClickable { navController ->
-                    viewModel.navigateToMoreOptions(navigationController = navController, bottomSheetState = bottomSheetState, scope = scope)
-                },
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.MoreVert,
-                tint = oppositeColorOfSystem(alpha = 1f),
-                contentDescription = null
-            )
-        }
     }
 }

@@ -1,29 +1,32 @@
 package bruhcollective.itaysonlab.jetispot.ui
 
 import android.content.Intent
-import androidx.compose.animation.AnimatedContentScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Warning
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.*
-import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.dialog
+import androidx.navigation.navDeepLink
 import bruhcollective.itaysonlab.jetispot.R
 import bruhcollective.itaysonlab.jetispot.core.SpAuthManager
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
-import bruhcollective.itaysonlab.jetispot.ui.bottomsheets.MoreOptionsBottomSheet
+import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.ui.bottomsheets.jump_to_artist.JumpToArtistBottomSheet
 import bruhcollective.itaysonlab.jetispot.ui.screens.BottomSheet
 import bruhcollective.itaysonlab.jetispot.ui.screens.Dialog
@@ -37,14 +40,13 @@ import bruhcollective.itaysonlab.jetispot.ui.screens.dac.DacRendererScreen
 import bruhcollective.itaysonlab.jetispot.ui.screens.dynamic.DynamicSpIdScreen
 import bruhcollective.itaysonlab.jetispot.ui.screens.search.SearchScreen
 import bruhcollective.itaysonlab.jetispot.ui.screens.yourlibrary2.YourLibraryContainerScreen
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
 import soup.compose.material.motion.animation.materialSharedAxisXIn
 import soup.compose.material.motion.animation.materialSharedAxisXOut
 import soup.compose.material.motion.animation.rememberSlideDistance
-
+import soup.compose.material.motion.navigation.MaterialMotionNavHost
+import soup.compose.material.motion.navigation.composable
 @OptIn(ExperimentalMaterialNavigationApi::class, ExperimentalAnimationApi::class)
 @Composable
 fun AppNavigation(
@@ -55,46 +57,37 @@ fun AppNavigation(
 ) {
     val slideDistance = rememberSlideDistance()
 
-    LaunchedEffect(Unit) {
-        if (sessionManager.isSignedIn()) return@LaunchedEffect
+    LaunchedEffect(true) {
+        val isLogged = sessionManager.isSignedIn()
+        Log.d("Test", "isLogged: $isLogged")
+        if (isLogged) return@LaunchedEffect
         authManager.authStored()
-        navController.navigate(if (sessionManager.isSignedIn()) Screen.Feed.route else Screen.Authorization.route) {
+        navController.navigate(if (isLogged) Screen.Feed.route else Screen.Authorization.route) {
             popUpTo(Screen.NavGraph.route)
         }
     }
 
-    AnimatedNavHost(
+    MaterialMotionNavHost(
         navController = navController,
         startDestination = Screen.CoreLoading.route,
         route = Screen.NavGraph.route,
         modifier = modifier,
         enterTransition = {
-            if (initialState.destination.route == "coreLoading") {
-                EnterTransition.None
-            } else {
-                materialSharedAxisXIn(forward = buildAnimationForward(this), slideDistance = slideDistance)
-            }
-        },
-        exitTransition = {
-            if (initialState.destination.route == "coreLoading") {
-                ExitTransition.None
-            } else {
-                materialSharedAxisXOut(forward = buildAnimationForward(this), slideDistance = slideDistance)
-            }
-        },
-        popEnterTransition = {
-            materialSharedAxisXIn(forward = false, slideDistance = slideDistance)
-        },
-        popExitTransition = {
-            materialSharedAxisXOut(forward = false, slideDistance = slideDistance)
+            materialSharedAxisXIn(forward = true, slideDistance)
+        }, exitTransition = {
+            materialSharedAxisXOut(forward = true, slideDistance)
+        }, popEnterTransition = {
+            materialSharedAxisXIn(forward = false, slideDistance)
+        }, popExitTransition = {
+            materialSharedAxisXOut(forward = false, slideDistance)
         }
     ) {
         composable(Screen.CoreLoading.route) {
             Box(Modifier.fillMaxSize()) {
                 CircularProgressIndicator(
                     modifier = Modifier
-                      .align(Alignment.Center)
-                      .size(56.dp)
+                        .align(Alignment.Center)
+                        .size(56.dp)
                 )
             }
         }
@@ -183,28 +176,5 @@ fun AppNavigation(
             val data = remember { entry.arguments!!.getString("artistIdsAndRoles")!! }
             JumpToArtistBottomSheet(data = data)
         }
-
-        bottomSheet(BottomSheet.MoreOptions.route) { entry ->
-            val trackName = remember { entry.arguments!!.getString("trackName")!! }
-            val artistName = remember { entry.arguments!!.getString("artistName")!! }
-            val artworkUrl = remember { entry.arguments!!.getString("artworkUrl")!! }
-            val artistsData = remember { entry.arguments!!.getString("artistsData")!! }
-            MoreOptionsBottomSheet(trackName, artistName, artworkUrl, artistsData)
-        }
     }
-}
-
-@OptIn(ExperimentalAnimationApi::class)
-private fun buildAnimationForward(scope: AnimatedContentScope<NavBackStackEntry>): Boolean {
-    val isRoute = getStartingRoute(scope.initialState.destination)
-    val tsRoute = getStartingRoute(scope.targetState.destination)
-
-    val isIndex = Screen.showInBottomNavigation.keys.indexOfFirst { it.route == isRoute }
-    val tsIndex = Screen.showInBottomNavigation.keys.indexOfFirst { it.route == tsRoute }
-
-    return tsIndex == -1 || isRoute == tsRoute || tsIndex > isIndex
-}
-
-private fun getStartingRoute(destination: NavDestination): String {
-    return destination.hierarchy.toList().let { it[it.lastIndex - 1] }.route.orEmpty()
 }
