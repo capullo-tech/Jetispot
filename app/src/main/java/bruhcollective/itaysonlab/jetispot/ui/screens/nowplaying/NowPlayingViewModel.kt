@@ -12,11 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntSize
 import androidx.lifecycle.ViewModel
 import bruhcollective.itaysonlab.jetispot.R
-import bruhcollective.itaysonlab.jetispot.SpApp
 import bruhcollective.itaysonlab.jetispot.core.SpPlayerServiceManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpPartnersApi
 import bruhcollective.itaysonlab.jetispot.core.lyrics.SpLyricsController
-import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.core.util.SpUtils
 import bruhcollective.itaysonlab.jetispot.ui.ext.blendWith
 import bruhcollective.itaysonlab.jetispot.ui.navigation.NavigationController
@@ -25,7 +23,6 @@ import com.spotify.metadata.Metadata
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import xyz.gianlu.librespot.common.Utils
-import xyz.gianlu.librespot.metadata.ArtistId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -125,6 +122,23 @@ class NowPlayingViewModel @Inject constructor(
       currentContextUri.value.contains("collection") -> context.getString(R.string.liked_songs)
       else -> currentContext.value
     }
+  }
+
+  private fun lyricLineIndexToTime(index: Int): Long {
+    return spLyricsController.currentLyricsLines[index].startTimeMs
+  }
+
+  private fun lyricLineTimeToIndex(time: Long): Long {
+    val index = spLyricsController.currentLyricsLines.indexOfLast { it.startTimeMs < time }
+    return spLyricsController.currentLyricsLines[index].startTimeMs
+  }
+
+  fun seekToLyricLineByIndex(index: Int) {
+    seekTo(lyricLineIndexToTime(index))
+  }
+
+  fun seekToLyricsLineByTime(time: Long) {
+    seekTo(lyricLineTimeToIndex(time))
   }
 
   suspend fun calculateDominantColor(

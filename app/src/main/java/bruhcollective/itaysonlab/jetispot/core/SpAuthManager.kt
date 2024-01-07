@@ -44,11 +44,6 @@ class SpAuthManager @Inject constructor(
         }.onFailure { th ->
             Log.i("SpAuthManager", "auth stored failure", th)
             AuthResult.Exception(Exception(th))
-            try {
-                reset()
-            } catch (e: Exception) {
-                Log.i("SpAuthManager", "auth stored failure: reset failed")
-            }
         }
     }
 

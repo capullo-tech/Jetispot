@@ -1,6 +1,6 @@
 # Add project specific ProGuard rules here.
 # You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.kts.
+# proguardFiles setting in build.gradle.
 #
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
@@ -48,40 +48,12 @@
 # genericjson gson fixes
 -keep,allowobfuscation class * extends xyz.gianlu.librespot.json.JsonWrapper { *; }
 
-# Keep `Companion` object fields of serializable classes.
-# This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
--if @kotlinx.serialization.Serializable class **
--keepclassmembers class <1> {
-    static <1>$Companion Companion;
-}
-
-# Keep `serializer()` on companion objects (both default and named) of serializable classes.
--if @kotlinx.serialization.Serializable class ** {
-    static **$* *;
-}
--keepclassmembers class <2>$<3> {
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
-# Keep `INSTANCE.serializer()` of serializable objects.
--if @kotlinx.serialization.Serializable class ** {
-    public static ** INSTANCE;
-}
--keepclassmembers class <1> {
-    public static <1> INSTANCE;
-    kotlinx.serialization.KSerializer serializer(...);
-}
-
-# @Serializable and @Polymorphic are used at runtime for polymorphic serialization.
--keepattributes RuntimeVisibleAnnotations,AnnotationDefault
-
 # protobuf
 -keep class com.spotify.** {*;}
 -keep class spotify.** {*;}
 -keep class bruhcollective.itaysonlab.swedentricks.** {*;}
 -keep class bruhcollective.itaysonlab.jetispot.proto.** {*;}
 -keep class com.google.protobuf.Any {*;}
--keep class com.google.protobuf.GeneratedMessageV3 {*;}
 -keep class * extends com.google.protobuf.AbstractMessage {*;}
 
 # librespot
@@ -111,6 +83,7 @@
 -keepclassmembers,allowshrinking,allowobfuscation interface * {
     @retrofit2.http.* <methods>;
 }
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn javax.annotation.**
 -dontwarn kotlin.Unit
 -dontwarn retrofit2.KotlinExtensions
@@ -120,5 +93,63 @@
 -keep,allowobfuscation,allowshrinking interface retrofit2.Call
 -keep,allowobfuscation,allowshrinking class retrofit2.Response
 -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
--dontwarn kotlinx.serialization.KSerializer
--dontwarn kotlinx.serialization.Serializable
+
+# KotlinX Serialization
+# Keep `Companion` object fields of serializable classes.
+# This avoids serializer lookup through `getDeclaredClasses` as done for named companion objects.
+-if @kotlinx.serialization.Serializable class **
+-keepclassmembers class <1> {
+    static <1>$Companion Companion;
+}
+
+# Keep `serializer()` on companion objects (both default and named) of serializable classes.
+-if @kotlinx.serialization.Serializable class ** {
+    static **$* *;
+}
+-keepclassmembers class <2>$<3> {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Keep `INSTANCE.serializer()` of serializable objects.
+-if @kotlinx.serialization.Serializable class ** {
+    public static ** INSTANCE;
+}
+-keepclassmembers class <1> {
+    public static <1> INSTANCE;
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# @Serializable and @Polymorphic are used at runtime for polymorphic serialization.
+-keepattributes RuntimeVisibleAnnotations,AnnotationDefault
+
+# Don't print notes about potential mistakes or omissions in the configuration for kotlinx-serialization classes
+# See also https://github.com/Kotlin/kotlinx.serialization/issues/1900
+-dontnote kotlinx.serialization.**
+
+#
+-dontwarn javax.sound.sampled.AudioFormat$Encoding
+-dontwarn javax.sound.sampled.AudioFormat
+-dontwarn javax.sound.sampled.AudioSystem
+-dontwarn javax.sound.sampled.Control$Type
+-dontwarn javax.sound.sampled.Control
+-dontwarn javax.sound.sampled.DataLine$Info
+-dontwarn javax.sound.sampled.FloatControl$Type
+-dontwarn javax.sound.sampled.FloatControl
+-dontwarn javax.sound.sampled.Line$Info
+-dontwarn javax.sound.sampled.Line
+-dontwarn javax.sound.sampled.LineUnavailableException
+-dontwarn javax.sound.sampled.Mixer$Info
+-dontwarn javax.sound.sampled.Mixer
+-dontwarn javax.sound.sampled.SourceDataLine
+-dontwarn org.apache.logging.log4j.Level
+-dontwarn org.apache.logging.log4j.core.config.Configurator
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn kotlinx.serialization.internal.ClassValueReferences

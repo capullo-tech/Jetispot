@@ -137,7 +137,8 @@ fun NowPlayingFullscreenComposition(
                 .fillMaxSize()
                 .alpha(1f - queueProgressValue),
             rvStateProgress = lyricsProgressValue,
-            selectedLyricIndex = viewModel.spLyricsController.currentSongLineIndex
+            selectedLyricIndex = viewModel.spLyricsController.currentSongLineIndex,
+            backgroundColor = viewModel.currentBgColor.value
         )
     }
 }

@@ -24,7 +24,9 @@ fun NowPlayingBackground(
   modifier: Modifier
 ) {
   val currentColor = viewModel.currentBgColor.value
-  val dominantColorAsBg = animateColorAsState(if (currentColor == Color.Transparent) MaterialTheme.colorScheme.surface else currentColor)
+  val dominantColorAsBg = animateColorAsState(if (currentColor == Color.Transparent) MaterialTheme.colorScheme.surface else currentColor,
+    label = ""
+  )
   val isSystemInDarkTheme = isSystemInDarkTheme()
   Canvas(modifier) {
     drawRect(

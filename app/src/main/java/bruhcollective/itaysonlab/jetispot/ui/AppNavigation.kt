@@ -57,12 +57,10 @@ fun AppNavigation(
 ) {
     val slideDistance = rememberSlideDistance()
 
-    LaunchedEffect(true) {
-        val isLogged = sessionManager.isSignedIn()
-        Log.d("Test", "isLogged: $isLogged")
-        if (isLogged) return@LaunchedEffect
+    LaunchedEffect(Unit) {
+        if (sessionManager.isSignedIn()) return@LaunchedEffect
         authManager.authStored()
-        navController.navigate(if (isLogged) Screen.Feed.route else Screen.Authorization.route) {
+        navController.navigate(if (sessionManager.isSignedIn()) Screen.Feed.route else Screen.Authorization.route) {
             popUpTo(Screen.NavGraph.route)
         }
     }
