@@ -1,6 +1,6 @@
+import com.google.protobuf.gradle.*
 import java.io.FileInputStream
 import java.util.Properties
-import com.google.protobuf.gradle.*
 
 plugins {
     id("com.android.application")
@@ -30,7 +30,7 @@ val room_version: String by rootProject.extra
 val librespot_commit: String by rootProject.extra
 val hilt_version: String by rootProject.extra
 
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
@@ -145,7 +145,7 @@ android {
         disable.addAll(listOf("MissingTranslation", "ExtraTranslation"))
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/*.kotlin_module"
             excludes += "/META-INF/*.version"
@@ -229,6 +229,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.retrofit2:converter-protobuf:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Data - SQL
     implementation("androidx.room:room-runtime:$room_version")

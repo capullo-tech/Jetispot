@@ -11,7 +11,7 @@ buildscript {
     val room_version by extra("2.6.1")
 
     val librespot_commit by extra("6244f91aeb")
-    val hilt_version by extra("2.49")
+    val hilt_version by extra("2.50")
 }
 
 plugins {

@@ -7,7 +7,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Photo
+import androidx.compose.material.icons.rounded.Podcasts
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import bruhcollective.itaysonlab.jetispot.R
-import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.*
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionAlbum
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionArtist
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEntry
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionPinnedItem
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionShow
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.PredefCeType
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.rootlist.CollectionRootlistItem
 import bruhcollective.itaysonlab.jetispot.ui.shared.ImagePreview
 import bruhcollective.itaysonlab.jetispot.ui.shared.PreviewableAsyncImage
