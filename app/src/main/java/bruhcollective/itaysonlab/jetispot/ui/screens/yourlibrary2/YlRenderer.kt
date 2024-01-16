@@ -120,6 +120,7 @@ fun YLRRootlist(
   item: CollectionRootlistItem,
   modifier: Modifier
 ) {
+  if (item.name.isEmpty()) return
   YLRGenericItem(
     picUrl = item.picture,
     picCircle = false,
