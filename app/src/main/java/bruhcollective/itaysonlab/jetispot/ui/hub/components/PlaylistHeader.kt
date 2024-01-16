@@ -1,9 +1,21 @@
 package bruhcollective.itaysonlab.jetispot.ui.hub.components
 
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Language
@@ -24,8 +36,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.HtmlCompat
 import bruhcollective.itaysonlab.jetispot.R
-import bruhcollective.itaysonlab.jetispot.SpApp
 import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubItem
 import bruhcollective.itaysonlab.jetispot.ui.hub.LocalHubScreenDelegate
 import bruhcollective.itaysonlab.jetispot.ui.hub.components.essentials.EntityActionStrip
@@ -136,13 +149,16 @@ fun LargePlaylistHeader(
         }
 
         if (!item.text?.subtitle.isNullOrEmpty()) {
-            Text(
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
-                fontSize = 12.sp,
-                lineHeight = 18.sp,
-                text = item.text?.subtitle!!, modifier = Modifier
+            AndroidView(
+                modifier = Modifier
                     .padding(horizontal = 16.dp)
-                    .padding(top = 16.dp)
+                    .padding(top = 16.dp),
+                factory = { ctx ->
+                    TextView(ctx).apply {
+                        text = HtmlCompat.fromHtml(item.text?.subtitle!!, HtmlCompat.FROM_HTML_MODE_COMPACT)
+                        movementMethod = LinkMovementMethod.getInstance()
+                    }
+                }
             )
         }
 
