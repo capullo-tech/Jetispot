@@ -128,6 +128,8 @@
     <string name="storage_actions">Actions</string>
     <string name="storage_clear">Clear application cache</string>
     <string name="storage_clear_metadata">Clear content metadata</string>
+    <string name="clear_rootlist">Clear rootlist (playlists)</string>
+    <string name="clear_db">Clear database</string>
 
     <string name="err_text">An error occurred while loading the page.</string>
     <string name="err_act_copy">Copy details</string>

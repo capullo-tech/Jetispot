@@ -1,10 +1,20 @@
 package bruhcollective.itaysonlab.jetispot.core.collection.db
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model.LocalCollectionCategory
-import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.*
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionAlbum
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionArtist
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionContentFilter
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEpisode
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionPinnedItem
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionShow
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionTrack
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.rootlist.CollectionRootlistItem
 import kotlinx.coroutines.flow.Flow
 
@@ -37,6 +47,9 @@ interface LocalCollectionDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun addEpisodes(vararg items: CollectionEpisode)
 
+  @Query("UPDATE rootlist SET picture = :picture WHERE uri = :uri AND CASE WHEN :overwrite THEN 1 ELSE picture <> '' END")
+  suspend fun updateRootlistPicture(uri: String, picture: String, overwrite: Boolean)
+
   @Query("SELECT * from lcTypes WHERE type = :of")
   suspend fun getCollection(of: String): LocalCollectionCategory?
 
@@ -51,6 +64,9 @@ interface LocalCollectionDao {
 
   @Query("DELETE FROM lcAlbums WHERE id IN (:ids)")
   suspend fun deleteAlbums(vararg ids: String)
+
+  @Query("DELETE FROM lcTypes WHERE type = :of")
+  suspend fun deleteCollectionCategory(of: String)
 
   @Query("SELECT * from lcArtists ORDER BY addedAt DESC")
   suspend fun getArtists(): List<CollectionArtist>
@@ -72,6 +88,9 @@ interface LocalCollectionDao {
 
   @Query("SELECT * from rootlist ORDER BY timestamp DESC")
   suspend fun getRootlist(): List<CollectionRootlistItem>
+
+  @Query("SELECT picture FROM rootlist WHERE uri = :uri")
+  suspend fun getRootlistImage(uri: String): String?
 
   @Query("DELETE from lcTracks")
   suspend fun deleteTracks()

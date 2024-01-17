@@ -4,13 +4,25 @@ import android.text.format.DateUtils
 import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
-import bruhcollective.itaysonlab.jetispot.core.objs.hub.*
-import bruhcollective.itaysonlab.jetispot.core.objs.player.*
+import bruhcollective.itaysonlab.jetispot.core.collection.SpCollectionManager
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubComponent
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubEvent
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubEvents
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubImage
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubImages
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubItem
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubResponse
+import bruhcollective.itaysonlab.jetispot.core.objs.hub.HubText
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PfcContextData
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PfcOptSkipTo
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PfcOptions
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PfcState
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PfcStateOptions
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PlayFromContextData
+import bruhcollective.itaysonlab.jetispot.core.objs.player.PlayFromContextPlayerData
 import bruhcollective.itaysonlab.jetispot.core.tracks
 import bruhcollective.itaysonlab.jetispot.core.user
-import bruhcollective.itaysonlab.jetispot.ui.screens.hub.LikedSongsViewModel
 import com.google.protobuf.ByteString
-import com.google.protobuf.StringValue
 import com.spotify.metadata.Metadata
 import com.spotify.playlist4.Playlist4ApiProto
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +39,7 @@ object PlaylistEntityView {
     val hubResponse: HubResponse
   )
 
-  suspend fun getPlaylistView(id: String, sessionManager: SpSessionManager, spInternalApi: SpInternalApi, spMetadataRequester: SpMetadataRequester): ApiPlaylist {
+  suspend fun getPlaylistView(id: String, sessionManager: SpSessionManager, spInternalApi: SpInternalApi, spMetadataRequester: SpMetadataRequester, spCollectionManager: SpCollectionManager): ApiPlaylist {
     val playlist = withContext(Dispatchers.IO) { sessionManager.session.api().getPlaylist(PlaylistId.fromUri("spotify:playlist:$id")) }
     val playlistTracks = playlist.contents.itemsList.distinctBy { it.uri }.filter { it.uri.startsWith("spotify:track:") }
     val playlistOwnerUsername = "spotify:user:${playlist.ownerUsername}"
@@ -79,7 +91,8 @@ object PlaylistEntityView {
           uri = playlist.attributes.formatAttributesList.find { it.key == "image" }?.value
             ?: playlist.attributes.formatAttributesList.find { it.key == "image_url" }?.value
             ?: playlist.attributes.pictureSizeList.find { it.targetName == "default" }?.url
-            ?: if (playlist.attributes.hasPicture()) "https://i.scdn.co/image/${Utils.bytesToHex(playlist.attributes.picture).lowercase()}" else ""
+            ?: if (playlist.attributes.hasPicture()) "https://i.scdn.co/image/${Utils.bytesToHex(playlist.attributes.picture).lowercase()}"
+            else spCollectionManager.getRootlistImage("spotify:playlist:$id") ?: ""
         )
       )
     )

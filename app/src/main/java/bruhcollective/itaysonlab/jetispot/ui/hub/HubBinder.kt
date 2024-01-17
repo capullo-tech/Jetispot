@@ -42,7 +42,7 @@ import bruhcollective.itaysonlab.jetispot.ui.hub.components.TextRow
 //TODO: FIX UNSUPPORTED ID IN LISTENING HISTORY - BOBBYESP
 
 @Composable
-fun HubBinder (
+fun HubBinder(
   item: HubItem,
   isRenderingInGrid: Boolean = false,
 ) {

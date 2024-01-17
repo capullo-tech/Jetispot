@@ -2,7 +2,13 @@ package bruhcollective.itaysonlab.jetispot.ui.screens.yourlibrary2
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -11,18 +17,31 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import bruhcollective.itaysonlab.jetispot.R
-import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
+import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEntry
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.PredefCeType
+import bruhcollective.itaysonlab.jetispot.core.user
 import bruhcollective.itaysonlab.jetispot.ui.navigation.LocalNavigationController
 import bruhcollective.itaysonlab.jetispot.ui.shared.PagingLoadingPage
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -93,11 +112,13 @@ fun YourLibraryContainerScreen(
           viewModel.content,
           key = { it.javaClass.simpleName + "_" + it.ceId() },
           contentType = { it.javaClass.simpleName }) { item ->
-          YlRenderer(item, modifier = Modifier
-            .clickable { navController.navigate(item.ceUri()) }
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .animateItemPlacement())
+          CompositionLocalProvider(LocalYlDelegate provides viewModel) {
+            YlRenderer(item, modifier = Modifier
+              .clickable { navController.navigate(item.ceUri()) }
+              .fillMaxWidth()
+              .padding(horizontal = 16.dp, vertical = 8.dp)
+              .animateItemPlacement())
+          }
         }
       }
     } else {
@@ -141,10 +162,15 @@ fun AnimatedChipRow(
 
 @HiltViewModel
 class YourLibraryContainerViewModel @Inject constructor(
-  private val dao: LocalCollectionDao
-) : ViewModel() {
+  private val dao: LocalCollectionDao,
+  private val spMetadataRequester: SpMetadataRequester
+) : ViewModel(), YlDelegate {
   var selectedTabId: String by mutableStateOf("")
   var content by mutableStateOf<List<CollectionEntry>>(emptyList())
+
+  override suspend fun getDisplayName(ownerUsername: String) = spMetadataRequester.request {
+    user("spotify:user:$ownerUsername")
+  }.userProfiles["spotify:user:$ownerUsername"]?.name?.value ?: ownerUsername
 
   suspend fun load() {
     val type = when (selectedTabId) {

@@ -2,14 +2,8 @@ package bruhcollective.itaysonlab.jetispot.core.di
 
 import android.content.Context
 import androidx.room.Room
-import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
-import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
-import bruhcollective.itaysonlab.jetispot.core.api.SpCollectionApi
-import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
-import bruhcollective.itaysonlab.jetispot.core.collection.SpCollectionManager
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDatabase
-import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
