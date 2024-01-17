@@ -158,7 +158,7 @@
     <string name="unknown_title">Unknown Title</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
-    <string name="search_placeholder">What would you like to listen?</string>
+    <string name="search_placeholder">What would you like to listen to?</string>
     <string name="song_prefix_with_dot">"Song • "</string>
     <string name="playlist_personalized_for_you">Playlist • Personalized for you</string>
     <string name="playlist_owned_by_spotify">Playlist • By Spotify</string>

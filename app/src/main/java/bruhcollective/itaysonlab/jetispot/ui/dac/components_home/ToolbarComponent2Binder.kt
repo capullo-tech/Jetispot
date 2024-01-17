@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import bruhcollective.itaysonlab.jetispot.ui.ext.dynamicUnpack
 import bruhcollective.itaysonlab.jetispot.ui.navigation.LocalNavigationController
 import bruhcollective.itaysonlab.jetispot.ui.shared.PreviewableAsyncImage
-import com.spotify.home.dac.component.v1.proto.ToolbarComponent
 import com.spotify.home.dac.component.v1.proto.ToolbarItemFeedComponent
 import com.spotify.home.dac.component.v1.proto.ToolbarItemListeningHistoryComponent
 import com.spotify.home.dac.component.v1.proto.ToolbarItemSettingsComponent

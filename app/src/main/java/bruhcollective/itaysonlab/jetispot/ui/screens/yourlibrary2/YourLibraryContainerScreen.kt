@@ -9,14 +9,14 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -32,18 +32,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import bruhcollective.itaysonlab.jetispot.R
 import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
+import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEntry
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.PredefCeType
 import bruhcollective.itaysonlab.jetispot.core.user
 import bruhcollective.itaysonlab.jetispot.ui.navigation.LocalNavigationController
 import bruhcollective.itaysonlab.jetispot.ui.shared.PagingLoadingPage
+import bruhcollective.itaysonlab.jetispot.ui.shared.PreviewableAsyncImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -69,17 +73,23 @@ fun YourLibraryContainerScreen(
 
   Scaffold(topBar = {
     Column {
-      TopAppBar(title = {
-        Text(stringResource(id = R.string.your_library))
-      }, navigationIcon = {
-        IconButton(onClick = { /* TODO */ }) {
-          Icon(Icons.Rounded.AccountCircle, null)
+      TopAppBar(
+        title = {
+          Text(stringResource(id = R.string.your_library), fontWeight = FontWeight.SemiBold)
+        },
+        navigationIcon = {
+          IconButton(
+            onClick = { navController.navigate("spotify:config") },
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp)
+          ) {
+            PreviewableAsyncImage(imageUrl = viewModel.profilePicture, placeholderType = "user", modifier = Modifier.size(36.dp).clip(CircleShape))
+          }
+        }, actions = {
+//        IconButton(onClick = { /* TODO */ }) {
+//          Icon(Icons.Rounded.Search, null)
+//        }
         }
-      }, actions = {
-        IconButton(onClick = { /* TODO */ }) {
-          Icon(Icons.Rounded.Search, null)
-        }
-      })
+      )
 
       AnimatedChipRow(
         listOf(
@@ -163,16 +173,19 @@ fun AnimatedChipRow(
 @HiltViewModel
 class YourLibraryContainerViewModel @Inject constructor(
   private val dao: LocalCollectionDao,
-  private val spMetadataRequester: SpMetadataRequester
+  private val spMetadataRequester: SpMetadataRequester,
+  private val spSessionManager: SpSessionManager
 ) : ViewModel(), YlDelegate {
   var selectedTabId: String by mutableStateOf("")
   var content by mutableStateOf<List<CollectionEntry>>(emptyList())
+  var profilePicture by mutableStateOf("")
 
   override suspend fun getDisplayName(ownerUsername: String) = spMetadataRequester.request {
     user("spotify:user:$ownerUsername")
   }.userProfiles["spotify:user:$ownerUsername"]?.name?.value ?: ownerUsername
 
   suspend fun load() {
+    getProfilePicture()
     val type = when (selectedTabId) {
       "playlists" -> FetchType.Playlists
       "albums" -> FetchType.Albums
@@ -213,6 +226,13 @@ class YourLibraryContainerViewModel @Inject constructor(
         }
       }
     })
+  }
+
+  private suspend fun getProfilePicture() {
+    val u = "spotify:user:${spSessionManager.session.username()}"
+    profilePicture = spMetadataRequester.request {
+      user(u)
+    }.userProfiles[u]?.imagesList?.firstOrNull()?.url ?: ""
   }
 
   enum class FetchType {
