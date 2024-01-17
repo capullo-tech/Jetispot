@@ -47,7 +47,7 @@ interface LocalCollectionDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun addEpisodes(vararg items: CollectionEpisode)
 
-  @Query("UPDATE rootlist SET picture = :picture WHERE uri = :uri AND CASE WHEN :overwrite THEN 1 ELSE picture <> '' END")
+  @Query("UPDATE rootlist SET picture = :picture WHERE uri = :uri AND CASE WHEN :overwrite THEN 1 ELSE picture == '' END")
   suspend fun updateRootlistPicture(uri: String, picture: String, overwrite: Boolean)
 
   @Query("SELECT * from lcTypes WHERE type = :of")

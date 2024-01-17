@@ -177,7 +177,7 @@ class DacViewModel @Inject constructor(
     load(loader)
   }
 
-  // overwrite will update the image URI in db only if there isn't already one
+  // overwrite will update picture regardless if it already exists (e.g. in the case we get a bigger picture, store that instead)
   override suspend fun updateRootlistImage(
     uri: String,
     image: String,
