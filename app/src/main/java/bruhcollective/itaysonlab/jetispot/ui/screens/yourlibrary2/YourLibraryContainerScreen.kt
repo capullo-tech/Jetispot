@@ -401,7 +401,7 @@ class YourLibraryContainerViewModel @Inject constructor(
         }
       }
       it.filter { p -> p.ceUri().startsWith("spotify:playlist:") }.map { pF -> pF.ceModifyPredef(PredefCeType.ROOTLIST, "") }
-    })
+    }).distinctBy { it.ceUri() }
     filteredContent = content
     loaded = true
   }
