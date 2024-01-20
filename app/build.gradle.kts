@@ -62,6 +62,7 @@ android {
         }.toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["disableAnalytics"] = "true"
 
         kapt {
             correctErrorTypes = true

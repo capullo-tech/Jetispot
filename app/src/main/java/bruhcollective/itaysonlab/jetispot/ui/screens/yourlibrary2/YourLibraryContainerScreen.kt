@@ -131,9 +131,9 @@ fun YourLibraryContainerScreen(
             if (it) {
               BasicTextField(
                 value = query,
-                onValueChange = {
-                  query = it
-                  viewModel.filter(it)
+                onValueChange = { q ->
+                  query = q
+                  viewModel.filter(q)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -354,6 +354,10 @@ class YourLibraryContainerViewModel @Inject constructor(
     user("spotify:user:$ownerUsername")
   }.userProfiles["spotify:user:$ownerUsername"]?.name?.value ?: ownerUsername
 
+  override suspend fun getPinnedRootlistPicture(uri: String): String? {
+    return dao.getRootlistImage(uri)
+  }
+
   suspend fun load() {
     getProfilePicture()
     val type = when (selectedTabId) {
@@ -393,8 +397,10 @@ class YourLibraryContainerViewModel @Inject constructor(
         when (pF.ceUri()) {
           "spotify:collection" -> pF.ceModifyPredef(PredefCeType.COLLECTION, dao.trackCount().toString())
           "spotify:collection:podcasts:episodes" -> pF.ceModifyPredef(PredefCeType.EPISODES, "")
+          "spotify:collection:your-episodes" -> pF.ceModifyPredef(PredefCeType.YOUR_EPISODES, "")
         }
       }
+      it.filter { p -> p.ceUri().startsWith("spotify:playlist:") }.map { pF -> pF.ceModifyPredef(PredefCeType.ROOTLIST, "") }
     })
     filteredContent = content
     loaded = true

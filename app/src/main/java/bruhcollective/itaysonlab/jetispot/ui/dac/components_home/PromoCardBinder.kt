@@ -27,30 +27,22 @@ import bruhcollective.itaysonlab.jetispot.ui.monet.ColorToScheme
 import bruhcollective.itaysonlab.jetispot.ui.shared.MediumText
 import bruhcollective.itaysonlab.jetispot.ui.shared.PreviewableAsyncImage
 import bruhcollective.itaysonlab.jetispot.ui.shared.Subtext
-import bruhcollective.itaysonlab.jetispot.ui.shared.dynamic_blocks.DynamicLikeButton
 import bruhcollective.itaysonlab.jetispot.ui.shared.dynamic_blocks.DynamicPlayButton
 import bruhcollective.itaysonlab.jetispot.ui.shared.navClickable
-import com.spotify.dac.player.v1.proto.PlayCommand
+import com.spotify.home.dac.component.v1.proto.PromoCardHomeComponent
 
 @Composable
-fun MediumActionCardBinder(
-    title: String,
-    subtitle: String,
-    contentType: String,
-    fact: String,
-    gradientColor: String,
-    navigateUri: String,
-    likeUri: String,
-    imageUri: String,
-    imagePlaceholder: String,
-    playCommand: PlayCommand
+fun PromoCardBinder(
+    item: PromoCardHomeComponent
 ) {
+    val imagePlaceholder = item.navigateUri.split(":").getOrNull(1) ?: "playlist"
+
     val curScheme = MaterialTheme.colorScheme
     val isDark = isSystemInDarkTheme()
     var colorScheme by remember { mutableStateOf(curScheme) }
 
-    LaunchedEffect(gradientColor) {
-        val clr = android.graphics.Color.parseColor("#$gradientColor")
+    LaunchedEffect(item.gradientColor) {
+        val clr = android.graphics.Color.parseColor("#${item.gradientColor}")
         colorScheme = ColorToScheme.convert(clr, isDark)
     }
 
@@ -63,12 +55,12 @@ fun MediumActionCardBinder(
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .navClickable { navController ->
-                navController.navigate(navigateUri)
+                navController.navigate(item.navigateUri)
             }) {
             Column(Modifier.padding(16.dp)) {
                 Row {
                     PreviewableAsyncImage(
-                        imageUrl = imageUri, placeholderType = imagePlaceholder, modifier = Modifier
+                        imageUrl = item.logoImageUri, placeholderType = imagePlaceholder, modifier = Modifier
                             .fillMaxHeight()
                             .size(140.dp)
                     )
@@ -76,29 +68,18 @@ fun MediumActionCardBinder(
                     Spacer(modifier = Modifier.width(8.dp))
 
                     Column {
-                        Subtext(text = contentType)
-                        MediumText(text = title, maxLines = 2)
+                        MediumText(text = item.title, maxLines = 2)
                         Spacer(modifier = Modifier.height(8.dp))
-                        Subtext(text = subtitle)
+                        Subtext(text = item.subtitle)
                     }
                 }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    DynamicLikeButton(
-                        objectUrl = likeUri,
-                        Modifier.size(42.dp)
-                    )
-
                     Spacer(Modifier.weight(1f))
-
-                    Subtext(text = fact)
-
-                    Spacer(modifier = Modifier.width(16.dp))
-
                     DynamicPlayButton(
-                        command = playCommand,
+                        command = item.playCommand,
                         Modifier.size(42.dp)
                     )
                 }

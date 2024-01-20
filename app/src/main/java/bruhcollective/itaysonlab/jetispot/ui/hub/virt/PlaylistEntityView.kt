@@ -49,6 +49,16 @@ object PlaylistEntityView {
       tracks(playlistTracks.map { it.uri })
     }
 
+    var imageUri = playlist.attributes.formatAttributesList.find { it.key == "image" }?.value
+      ?: playlist.attributes.formatAttributesList.find { it.key == "image_url" }?.value
+      ?: playlist.attributes.pictureSizeList.find { it.targetName == "default" }?.url
+      ?: if (playlist.attributes.hasPicture()) "https://i.scdn.co/image/${Utils.bytesToHex(playlist.attributes.picture).lowercase()}" else ""
+    if (imageUri.isEmpty()) {
+      imageUri = spCollectionManager.getRootlistImage("spotify:playlist:$id") ?: ""
+    } else {
+      spCollectionManager.updateRootlistImage("spotify:playlist:$id", imageUri, overwrite = true)
+    }
+
     val mappedDuration = mappedMetadata.tracks.map { it.value.duration / 1000L }.sum()
     val playlistOwner = mappedMetadata.userProfiles[playlistOwnerUsername]!!
     val popCount = spInternalApi.getPlaylistPopCount(id)
@@ -88,11 +98,7 @@ object PlaylistEntityView {
       ),
       images = HubImages(
         HubImage(
-          uri = playlist.attributes.formatAttributesList.find { it.key == "image" }?.value
-            ?: playlist.attributes.formatAttributesList.find { it.key == "image_url" }?.value
-            ?: playlist.attributes.pictureSizeList.find { it.targetName == "default" }?.url
-            ?: if (playlist.attributes.hasPicture()) "https://i.scdn.co/image/${Utils.bytesToHex(playlist.attributes.picture).lowercase()}"
-            else spCollectionManager.getRootlistImage("spotify:playlist:$id") ?: ""
+          uri = imageUri
         )
       )
     )

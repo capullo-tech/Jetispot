@@ -6,6 +6,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 @Stable
 interface YlDelegate {
     suspend fun getDisplayName(ownerUsername: String): String
+    suspend fun getPinnedRootlistPicture(uri: String): String?
 }
 
 val LocalYlDelegate = staticCompositionLocalOf<YlDelegate> { error("YlDelegate should be initialized") }

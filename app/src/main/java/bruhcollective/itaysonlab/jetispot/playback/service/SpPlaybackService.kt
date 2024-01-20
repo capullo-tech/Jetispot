@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import androidx.media2.session.LibraryResult
 import androidx.media2.session.MediaLibraryService
 import androidx.media2.session.MediaSession
 import androidx.media2.session.SessionResult
@@ -72,7 +70,7 @@ class SpPlaybackService : MediaLibraryService(), CoroutineScope by CoroutineScop
             Intent(this@SpPlaybackService, MainActivity::class.java).apply {
               putExtra("openPlayer", true)
             },
-            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0) or PendingIntent.FLAG_UPDATE_CURRENT
+            (PendingIntent.FLAG_IMMUTABLE) or PendingIntent.FLAG_UPDATE_CURRENT
           )
         )
       }.build()

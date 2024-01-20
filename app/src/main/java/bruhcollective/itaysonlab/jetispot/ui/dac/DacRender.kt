@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import bruhcollective.itaysonlab.jetispot.BuildConfig
 import bruhcollective.itaysonlab.jetispot.proto.ErrorComponent
 import bruhcollective.itaysonlab.jetispot.ui.dac.components_home.MediumActionCardBinder
+import bruhcollective.itaysonlab.jetispot.ui.dac.components_home.PromoCardBinder
 import bruhcollective.itaysonlab.jetispot.ui.dac.components_home.RecentlyPlayedSectionComponentBinder
 import bruhcollective.itaysonlab.jetispot.ui.dac.components_home.RecsplanationHeadingComponentBinder
 import bruhcollective.itaysonlab.jetispot.ui.dac.components_home.RecsplanationHeadingSingleTextComponentBinder
@@ -35,6 +36,7 @@ import com.spotify.home.dac.component.v1.proto.ArtistCardActionsMediumComponent
 import com.spotify.home.dac.component.v1.proto.ArtistCardActionsSmallComponent
 import com.spotify.home.dac.component.v1.proto.PlaylistCardActionsMediumComponent
 import com.spotify.home.dac.component.v1.proto.PlaylistCardActionsSmallComponent
+import com.spotify.home.dac.component.v1.proto.PromoCardHomeComponent
 import com.spotify.home.dac.component.v1.proto.RecentlyPlayedSectionComponent
 import com.spotify.home.dac.component.v1.proto.RecsplanationHeadingComponent
 import com.spotify.home.dac.component.v1.proto.SectionComponent
@@ -55,7 +57,6 @@ fun DacRender(
   item: Message
 ) {
   when (item) {
-
     // AllPlans / PlanOverview
     is MultiUserMemberComponent -> MultiUserMemberComponentBinder(item)
     is BenefitListComponent -> BenefitListComponentBinder(item)
@@ -84,6 +85,8 @@ fun DacRender(
     is SectionHeaderComponent -> SectionHeaderComponentBinder(item.title)
     is SectionComponent -> SectionComponentBinder(item)
     is RecentlyPlayedSectionComponent -> RecentlyPlayedSectionComponentBinder()
+
+    is PromoCardHomeComponent -> PromoCardBinder(item)
 
     //Podcasts
     //EpisodeCardActionsMediumComponent ->

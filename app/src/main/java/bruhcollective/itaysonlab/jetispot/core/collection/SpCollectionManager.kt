@@ -95,6 +95,12 @@ class SpCollectionManager @Inject constructor(
     uri: String
   ) = dao.getRootlistImage(uri)
 
+  suspend fun updateRootlistImage(
+    uri: String,
+    image: String,
+    overwrite: Boolean
+  ) = dao.updateRootlistPicture(uri, image, overwrite)
+
   suspend fun clearRootlist() {
     dao.deleteRootList()
     dao.deleteCollectionCategory("rootlist")

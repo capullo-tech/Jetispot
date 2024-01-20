@@ -93,8 +93,10 @@
 
     <string name="liked_songs">Liked Songs</string>
     <string name="new_episodes">New Episodes</string>
+    <string name="your_episodes">Your Episodes</string>
     <string name="liked_songs_desc">%s songs</string>
     <string name="new_episodes_desc">Last updated on %s</string>
+    <string name="saved_episodes">Saved episodes</string>
 
     <string name="sort">Sort by</string>
     <string name="sort_time">Recently added</string>
