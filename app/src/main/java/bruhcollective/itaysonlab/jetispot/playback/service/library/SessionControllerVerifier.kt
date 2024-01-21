@@ -149,6 +149,7 @@ class SessionControllerVerifier @Inject constructor(
     private fun pmNewSignaturesSupported() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
     @SuppressLint("PackageManagerGetSignatures")
+    @Suppress("DEPRECATION")
     private fun pmFlags() = if (pmNewSignaturesSupported()) PackageManager.GET_SIGNING_CERTIFICATES else PackageManager.GET_SIGNATURES
 
     @RequiresApi(Build.VERSION_CODES.P)

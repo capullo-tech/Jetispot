@@ -84,7 +84,7 @@ fun HubScaffold(
                                     Icon(Icons.Rounded.ArrowBack, null)
                                 }
                             },
-                            colors = if (toolbarOptions.alwaysVisible) TopAppBarDefaults.smallTopAppBarColors() else TopAppBarDefaults.smallTopAppBarColors(
+                            colors = if (toolbarOptions.alwaysVisible) TopAppBarDefaults.topAppBarColors() else TopAppBarDefaults.topAppBarColors(
                                 containerColor = Color.Transparent,
                                 scrolledContainerColor = MaterialTheme.colorScheme.compositeSurfaceElevation(
                                     3.dp
