@@ -12,7 +12,6 @@ import xyz.gianlu.librespot.player.mixing.output.OutputAudioFormat
 import xyz.gianlu.librespot.player.mixing.output.SinkException
 import xyz.gianlu.librespot.player.mixing.output.SinkOutput
 
-@RequiresApi(Build.VERSION_CODES.M)
 class AndroidSinkOutput: SinkOutput {
   private var track: AudioTrack? = null
   private var lastVolume = -1F

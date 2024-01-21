@@ -43,7 +43,7 @@ class PlayCommandBuilder (
 }
 
 fun PlayCommand.toApplicationPlayCommand(moshi: Moshi): PlayFromContextData {
-    // TODO needs investigation when coming from e.g. 'new release from' on DAC
+    // TODO playing needs investigation when coming from album i.e. 'new release from' on DAC
     val context = moshi.adapter(PfcContextData::class.java).fromJson(this.context.toStringUtf8())!!
     val options = moshi.adapter(PlayFromContextPlayerData::class.java).fromJson(this.options.toStringUtf8())?.options
 

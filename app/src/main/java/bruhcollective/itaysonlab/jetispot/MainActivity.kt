@@ -18,6 +18,7 @@ import androidx.compose.material.rememberBottomSheetScaffoldState
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -25,7 +26,6 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import bruhcollective.itaysonlab.jetispot.core.SpAuthManager
 import bruhcollective.itaysonlab.jetispot.core.SpPlayerServiceManager
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
@@ -178,6 +178,7 @@ class MainActivity : ComponentActivity() {
                                                 )
                                             },
                                             label = { Text(stringResource(screen.title)) },
+                                            alwaysShowLabel = false,
                                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                                             onClick = {
                                                 navController.navigate(screen.route) {
@@ -193,7 +194,7 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
                             }
-                        ) { innerPadding ->
+                        ) { _ ->
                             BottomSheetScaffold(
                                 sheetContent = {
                                     NowPlayingScreen(
@@ -208,6 +209,7 @@ class MainActivity : ComponentActivity() {
                                 scaffoldState = bsState,
                                 sheetPeekHeight = bsPeek,
                                 backgroundColor = MaterialTheme.colorScheme.surface,
+                                sheetBackgroundColor = Color.Transparent,
                                 sheetGesturesEnabled = !bsQueueOpened && !bsLyricsOpened
                             ) { innerScaffoldPadding ->
                                 AppNavigation(

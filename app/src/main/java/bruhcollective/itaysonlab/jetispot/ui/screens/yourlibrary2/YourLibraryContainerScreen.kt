@@ -8,6 +8,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -201,9 +202,14 @@ fun YourLibraryContainerScreen(
                 onClick = { navController.navigate("spotify:config") },
                 modifier = Modifier.padding(start = 8.dp, end = 8.dp)
               ) {
-                PreviewableAsyncImage(imageUrl = viewModel.profilePicture, placeholderType = "user", modifier = Modifier
-                  .size(36.dp)
-                  .clip(CircleShape))
+                PreviewableAsyncImage(
+                  imageUrl = viewModel.profilePicture,
+                  placeholderType = "user",
+                  modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape)
+                )
               }
             }
           }

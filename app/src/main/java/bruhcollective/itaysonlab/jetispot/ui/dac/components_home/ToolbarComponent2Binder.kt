@@ -1,5 +1,6 @@
 package bruhcollective.itaysonlab.jetispot.ui.dac.components_home
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,7 +10,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,7 +50,7 @@ fun ToolbarComponent2Binder(
     IconButton(onClick = {
       navController.navigate("spotify:config") // TODO until we implement user pages
     }, modifier = Modifier.padding(start = 8.dp, end = 6.dp)) {
-      PreviewableAsyncImage(imageUrl = item.profileButton.imageUri, placeholderType = "user", modifier = Modifier.size(36.dp).clip(CircleShape))
+      PreviewableAsyncImage(imageUrl = item.profileButton.imageUri, placeholderType = "user", modifier = Modifier.size(36.dp).border(1.dp, MaterialTheme.colorScheme.onSurface, CircleShape).clip(CircleShape))
     }
   })
 }
