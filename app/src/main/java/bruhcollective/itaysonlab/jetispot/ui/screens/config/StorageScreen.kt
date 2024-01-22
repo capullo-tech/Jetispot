@@ -115,6 +115,7 @@ fun StorageScreen(
 
           // 2-3. Header
           item("storageact") {
+            Spacer(Modifier.size(8.dp))
             ConfigCategory(text = stringResource(id = R.string.storage_actions))
           }
 
@@ -131,7 +132,7 @@ fun StorageScreen(
 }
 
 @Composable
-fun StorageComponentDetail(
+private fun StorageComponentDetail(
   type: StorageViewModel.StorageFileKind,
   size: String,
 ) {
@@ -139,7 +140,9 @@ fun StorageComponentDetail(
     Modifier
       .fillMaxWidth()
       .padding(horizontal = 16.dp)
-      .padding(top = 16.dp)) {
+      .padding(top = 16.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
     Icon(imageVector = type.icon, contentDescription = null, modifier = Modifier.size(28.dp))
 
     Column(Modifier.padding(start = 16.dp)) {
@@ -151,7 +154,7 @@ fun StorageComponentDetail(
 }
 
 @Composable
-fun StorageHeader(
+private fun StorageHeader(
   state: StorageViewModel.UiState.Ready
 ) {
   Column(Modifier.padding(horizontal = 16.dp)) {
@@ -191,7 +194,7 @@ fun StorageHeader(
         .height(16.dp), state.takenTotal, state.others, state.internalStorage.total
     )
 
-    Row(Modifier.padding(top = 4.dp, bottom = 8.dp)) {
+    Row(Modifier.padding(top = 8.dp, bottom = 8.dp)) {
       ProgressIndicatorLegend(
         modifier = Modifier.align(Alignment.CenterVertically),
         color = MaterialTheme.colorScheme.primary,
@@ -211,7 +214,7 @@ fun StorageHeader(
 }
 
 @Composable
-fun ProgressIndicatorLegend(
+private fun ProgressIndicatorLegend(
   modifier: Modifier = Modifier,
   color: Color,
   text: String
@@ -233,7 +236,7 @@ fun ProgressIndicatorLegend(
 }
 
 @Composable
-fun MultiStateProgressIndicator(
+private fun MultiStateProgressIndicator(
   modifier: Modifier,
   application: Long,
   others: Long,

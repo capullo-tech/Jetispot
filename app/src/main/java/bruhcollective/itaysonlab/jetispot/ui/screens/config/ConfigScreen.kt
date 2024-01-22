@@ -32,7 +32,7 @@ class ConfigScreenViewModel @Inject constructor(
 ) : ViewModel(), ConfigViewModel {
   private val configList = buildList {
 
-    add(ConfigItem.Hint())
+    add(ConfigItem.Hint)
 
     add(ConfigItem.Category(R.string.config_playback))
 
@@ -109,11 +109,11 @@ class ConfigScreenViewModel @Inject constructor(
 
     add(ConfigItem.Category(R.string.config_about))
 
-    add(ConfigItem.Preference(R.string.app_name, { ctx, _ ->
+    add(ConfigItem.InfoItem(R.string.app_name) { ctx ->
       ctx.getString(
         R.string.about_version, BuildConfig.VERSION_NAME
       )
-    }, {}))
+    })
 
     add(ConfigItem.Preference(R.string.about_sources, { ctx, _ -> "" }, {
       it.openInBrowser("https://github.com/iTaysonLab/jetispot")
