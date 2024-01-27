@@ -1,5 +1,6 @@
 package bruhcollective.itaysonlab.jetispot.ui.screens.config
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +14,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,8 +30,27 @@ import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.EnergySavingsLeaf
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -53,6 +80,7 @@ interface ConfigViewModel {
   fun isRoot(): Boolean = false
 }
 
+@SuppressLint("BatteryLife")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseConfigScreen(
@@ -116,6 +144,10 @@ fun BaseConfigScreen(
 
           is ConfigItem.Info -> {
             ConfigInfo(stringResource(item.text))
+          }
+
+          is ConfigItem.InfoItem -> {
+            ConfigInfoItem(stringResource(item.title), item.subtitle(context))
           }
 
           is ConfigItem.Preference -> {
@@ -289,6 +321,24 @@ fun ConfigRadio(
 }
 
 @Composable
+fun ConfigInfoItem(
+  title: String,
+  subtitle: String
+) {
+  Column(modifier = Modifier
+    .fillMaxWidth()
+    .padding(16.dp)) {
+    Text(text = title, color = MaterialTheme.colorScheme.onBackground, fontSize = 18.sp)
+    if (subtitle.isNotEmpty()) Text(
+      text = subtitle,
+      color = MaterialTheme.colorScheme.onSurfaceVariant,
+      fontSize = 14.sp,
+      modifier = Modifier.padding(top = 4.dp)
+    )
+  }
+}
+
+@Composable
 fun ConfigPreference(
   title: String,
   subtitle: String = "",
@@ -415,6 +465,11 @@ sealed class ConfigItem {
   class Category(@StringRes val title: Int) : ConfigItem()
   class Info(@StringRes val text: Int) : ConfigItem()
 
+  class InfoItem(
+    @StringRes val title: Int,
+    val subtitle: (Context) -> String
+  ): ConfigItem()
+
   class Preference(
     @StringRes val title: Int,
     val subtitle: (Context, AppConfig) -> String,
@@ -451,6 +506,5 @@ sealed class ConfigItem {
     val modify: AppConfig.Builder.(Int) -> Unit
   ) : ConfigItem()
 
-  class Hint(
-  ) : ConfigItem()
+  data object Hint : ConfigItem()
 }

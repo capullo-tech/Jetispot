@@ -26,7 +26,6 @@ import bruhcollective.itaysonlab.jetispot.R
 import bruhcollective.itaysonlab.jetispot.core.SpAuthManager
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
-import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.ui.bottomsheets.jump_to_artist.JumpToArtistBottomSheet
 import bruhcollective.itaysonlab.jetispot.ui.screens.BottomSheet
 import bruhcollective.itaysonlab.jetispot.ui.screens.Dialog

@@ -68,7 +68,7 @@
     <string name="plan_includes">Plan includes</string>
     <string name="plan_others">See other plans</string>
 
-    <string name="about_version">version %s</string>
+    <string name="about_version">Version %s</string>
     <string name="about_sources">Show source code</string>
     <string name="about_channel">Open Telegram channel</string>
 
@@ -93,8 +93,10 @@
 
     <string name="liked_songs">Liked Songs</string>
     <string name="new_episodes">New Episodes</string>
+    <string name="your_episodes">Your Episodes</string>
     <string name="liked_songs_desc">%s songs</string>
     <string name="new_episodes_desc">Last updated on %s</string>
+    <string name="saved_episodes">Saved episodes</string>
 
     <string name="sort">Sort by</string>
     <string name="sort_time">Recently added</string>
@@ -128,6 +130,8 @@
     <string name="storage_actions">Actions</string>
     <string name="storage_clear">Clear application cache</string>
     <string name="storage_clear_metadata">Clear content metadata</string>
+    <string name="clear_rootlist">Clear rootlist (playlists)</string>
+    <string name="clear_db">Clear database</string>
 
     <string name="err_text">An error occurred while loading the page.</string>
     <string name="err_act_copy">Copy details</string>
@@ -156,7 +160,8 @@
     <string name="unknown_title">Unknown Title</string>
     <string name="unknown_artist">Unknown Artist</string>
     <string name="unknown_album">Unknown Album</string>
-    <string name="search_placeholder">What would you like to listen?</string>
+    <string name="search_placeholder">What would you like to listen to?</string>
+    <string name="search_your_library">Search your library</string>
     <string name="song_prefix_with_dot">"Song • "</string>
     <string name="playlist_personalized_for_you">Playlist • Personalized for you</string>
     <string name="playlist_owned_by_spotify">Playlist • By Spotify</string>

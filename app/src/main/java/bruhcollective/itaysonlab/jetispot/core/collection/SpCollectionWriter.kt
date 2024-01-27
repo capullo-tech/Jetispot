@@ -1,29 +1,41 @@
 package bruhcollective.itaysonlab.jetispot.core.collection
 
 import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
-import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpCollectionApi
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionRepository
-import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.*
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionAlbum
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionArtist
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionContentFilter
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEpisode
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionPinnedItem
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionShow
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionTrack
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.rootlist.CollectionRootlistItem
 import bruhcollective.itaysonlab.jetispot.core.objs.tags.ContentFilterResponse
+import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.core.util.Revision
 import bruhcollective.itaysonlab.jetispot.core.util.SpUtils
 import bruhcollective.itaysonlab.swedentricks.protos.CollectionUpdate
 import bruhcollective.itaysonlab.swedentricks.protos.CollectionUpdateEntry
 import com.google.protobuf.ByteString
 import com.spotify.collection2.v2.proto.Collection2V2
-import com.spotify.extendedmetadata.ExtendedMetadata
 import com.spotify.extendedmetadata.ExtensionKindOuterClass
 import com.spotify.metadata.Metadata
 import com.spotify.playlist4.Playlist4ApiProto
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import xyz.gianlu.librespot.common.Utils
-import xyz.gianlu.librespot.metadata.*
-import java.nio.charset.StandardCharsets
+import xyz.gianlu.librespot.metadata.AlbumId
+import xyz.gianlu.librespot.metadata.ArtistId
+import xyz.gianlu.librespot.metadata.EpisodeId
+import xyz.gianlu.librespot.metadata.ImageId
+import xyz.gianlu.librespot.metadata.PlaylistId
+import xyz.gianlu.librespot.metadata.ShowId
+import xyz.gianlu.librespot.metadata.TrackId
 
 class SpCollectionWriter(
   private val spSessionManager: SpSessionManager,
@@ -381,7 +393,7 @@ class SpCollectionWriter(
                 timestamp = pair.first.attributes.timestamp,
                 name = pair.second.attributes.name,
                 ownerUsername = pair.second.ownerUsername,
-                picture = pair.second.attributes.pictureSizeList.find { it.targetName == "default" }?.url ?: "https://i.scdn.co/image/${Utils.bytesToHex(pair.second.attributes.picture).lowercase()}"
+                picture = pair.second.attributes.pictureSizeList.find { it.targetName == "default" }?.url ?: if (pair.second.attributes.picture.isEmpty) "" else "https://i.scdn.co/image/${Utils.bytesToHex(pair.second.attributes.picture).lowercase()}"
               )
             }.toTypedArray())
           }
@@ -407,7 +419,7 @@ class SpCollectionWriter(
         timestamp = pair.first.attributes.timestamp,
         name = pair.second.attributes.name,
         ownerUsername = pair.second.ownerUsername,
-        picture = pair.second.attributes.pictureSizeList.find { it.targetName == "default" }?.url ?: "https://i.scdn.co/image/${Utils.bytesToHex(pair.second.attributes.picture).lowercase()}"
+        picture = pair.second.attributes.pictureSizeList.find { it.targetName == "default" }?.url ?: if (pair.second.attributes.picture.isEmpty) "" else "https://i.scdn.co/image/${Utils.bytesToHex(pair.second.attributes.picture).lowercase()}"
       )
     }.toTypedArray()
 

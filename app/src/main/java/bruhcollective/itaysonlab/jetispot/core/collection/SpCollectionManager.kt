@@ -1,15 +1,19 @@
 package bruhcollective.itaysonlab.jetispot.core.collection
 
 import bruhcollective.itaysonlab.jetispot.core.SpMetadataRequester
-import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpCollectionApi
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionRepository
+import bruhcollective.itaysonlab.jetispot.core.util.Log
 import bruhcollective.itaysonlab.swedentricks.protos.CollectionUpdate
 import com.spotify.playlist4.Playlist4ApiProto
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.asCoroutineDispatcher
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import xyz.gianlu.librespot.common.Utils
 import xyz.gianlu.librespot.dealer.DealerClient
 import java.util.concurrent.Executors
@@ -85,6 +89,21 @@ class SpCollectionManager @Inject constructor(
 
   suspend fun remove(id: String, set: String = "collection") {
     writer.performRemove(id, set)
+  }
+
+  suspend fun getRootlistImage(
+    uri: String
+  ) = dao.getRootlistImage(uri)
+
+  suspend fun updateRootlistImage(
+    uri: String,
+    image: String,
+    overwrite: Boolean
+  ) = dao.updateRootlistPicture(uri, image, overwrite)
+
+  suspend fun clearRootlist() {
+    dao.deleteRootList()
+    dao.deleteCollectionCategory("rootlist")
   }
 
   override fun onMessage(p0: String, p1: MutableMap<String, String>, p2: ByteArray) {

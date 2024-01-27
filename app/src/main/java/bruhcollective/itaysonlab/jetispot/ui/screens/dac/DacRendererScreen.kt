@@ -1,12 +1,22 @@
 package bruhcollective.itaysonlab.jetispot.ui.screens.dac
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material3.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -15,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import bruhcollective.itaysonlab.jetispot.core.SpPlayerServiceManager
 import bruhcollective.itaysonlab.jetispot.core.api.SpInternalApi
+import bruhcollective.itaysonlab.jetispot.core.collection.db.LocalCollectionDao
 import bruhcollective.itaysonlab.jetispot.core.util.toApplicationPlayCommand
 import bruhcollective.itaysonlab.jetispot.proto.ErrorComponent
 import bruhcollective.itaysonlab.jetispot.ui.dac.DacDelegate
@@ -120,6 +131,7 @@ fun DacRendererScreen(
 class DacViewModel @Inject constructor(
   private val spInternalApi: SpInternalApi,
   private val spPlayerServiceManager: SpPlayerServiceManager,
+  private val dao: LocalCollectionDao,
   private val moshi: Moshi
 ) : ViewModel(), DacDelegate {
   var facet = "default"
@@ -163,6 +175,15 @@ class DacViewModel @Inject constructor(
   suspend fun reload(loader: suspend SpInternalApi.(String) -> DacResponse) {
     _state.value = State.Loading
     load(loader)
+  }
+
+  // overwrite will update picture regardless if it already exists (e.g. in the case we get a bigger picture, store that instead)
+  override suspend fun updateRootlistImage(
+    uri: String,
+    image: String,
+    overwrite: Boolean
+  ) {
+    dao.updateRootlistPicture(uri, image, overwrite)
   }
 
   sealed class State {

@@ -6,7 +6,15 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomSheetState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
@@ -23,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import bruhcollective.itaysonlab.jetispot.ui.ext.compositeSurfaceElevation
 import bruhcollective.itaysonlab.jetispot.ui.ext.disableTouch
 import bruhcollective.itaysonlab.jetispot.ui.screens.nowplaying.NowPlayingViewModel
-import bruhcollective.itaysonlab.jetispot.ui.theme.ApplicationTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -60,12 +68,13 @@ fun NowPlayingFullscreenComposition(
     }
     Box(modifier = Modifier
         .fillMaxSize()
+        .clip(RoundedCornerShape(16.dp, 16.dp, 0.dp, 0.dp))
         .background(
             MaterialTheme.colorScheme.compositeSurfaceElevation(
                 3.dp
             )
-        )) {
-
+        )
+    ) {
         NowPlayingBackground(
             viewModel = viewModel,
             modifier = Modifier
@@ -92,10 +101,7 @@ fun NowPlayingFullscreenComposition(
                     .statusBarsPadding()
                     .align(Alignment.TopCenter)
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                viewModel = viewModel,
-                bottomSheetState = bottomSheetState,
-                scope = scope,
+                    .padding(horizontal = 16.dp)
             )
         }
         // composite

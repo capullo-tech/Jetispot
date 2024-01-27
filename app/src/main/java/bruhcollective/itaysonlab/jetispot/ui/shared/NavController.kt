@@ -24,7 +24,7 @@ fun Modifier.navClickable(
         interactionSource = remember { MutableInteractionSource() },
     ) {
         onClick(navController)
-    }
+    }.then(this)
 }
 
 fun Modifier.navAndHubClickable(
@@ -41,5 +41,5 @@ fun Modifier.navAndHubClickable(
         interactionSource = remember { MutableInteractionSource() },
     ) {
         onClick(navController, hubScreenDelegate)
-    }
+    }.then(this)
 }

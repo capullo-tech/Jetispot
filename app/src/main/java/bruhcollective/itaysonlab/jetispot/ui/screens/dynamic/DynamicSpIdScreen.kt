@@ -10,7 +10,15 @@ import androidx.compose.ui.Modifier
 import bruhcollective.itaysonlab.jetispot.ui.screens.blend.BlendCreateInvitationScreen
 import bruhcollective.itaysonlab.jetispot.ui.screens.config.ConfigScreen
 import bruhcollective.itaysonlab.jetispot.ui.screens.history.ListeningHistoryScreen
-import bruhcollective.itaysonlab.jetispot.ui.screens.hub.*
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.AlbumScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.BrowseRadioScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.BrowseScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.CollectionScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.HubScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.LikedSongsScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.PlaylistScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.PodcastShowScreen
+import bruhcollective.itaysonlab.jetispot.ui.screens.hub.YourEpisodesScreen
 
 @Composable
 fun DynamicSpIdScreen(
@@ -47,6 +55,7 @@ fun DynamicSpIdScreen(
         id = argument,
         fullUri = fullUri
       )
+      "your-episodes" -> YourEpisodesScreen()
       "" -> CollectionScreen()
       /* else -> {  TODO  } */
     }

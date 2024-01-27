@@ -1,10 +1,10 @@
 package bruhcollective.itaysonlab.jetispot.core
 
 import android.os.Looper
-import bruhcollective.itaysonlab.jetispot.proto.AudioNormalization
 import bruhcollective.itaysonlab.jetispot.playback.service.refl.SpReflect
 import bruhcollective.itaysonlab.jetispot.playback.sp.AndroidSinkOutput
 import bruhcollective.itaysonlab.jetispot.playback.sp.LowToHighQualityPicker
+import bruhcollective.itaysonlab.jetispot.proto.AudioNormalization
 import xyz.gianlu.librespot.audio.decoders.AudioQuality
 import xyz.gianlu.librespot.player.Player
 import xyz.gianlu.librespot.player.PlayerConfiguration

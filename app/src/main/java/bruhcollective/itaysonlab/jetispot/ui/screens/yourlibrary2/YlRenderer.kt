@@ -7,11 +7,21 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
+import androidx.compose.material.icons.rounded.Bookmark
+import androidx.compose.material.icons.rounded.Favorite
+import androidx.compose.material.icons.rounded.Photo
+import androidx.compose.material.icons.rounded.PlaylistPlay
+import androidx.compose.material.icons.rounded.Podcasts
+import androidx.compose.material.icons.rounded.PushPin
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,7 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import bruhcollective.itaysonlab.jetispot.R
-import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.*
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionAlbum
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionArtist
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionEntry
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionPinnedItem
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.CollectionShow
+import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.PredefCeType
 import bruhcollective.itaysonlab.jetispot.core.collection.db.model2.rootlist.CollectionRootlistItem
 import bruhcollective.itaysonlab.jetispot.ui.shared.ImagePreview
 import bruhcollective.itaysonlab.jetispot.ui.shared.PreviewableAsyncImage
@@ -45,12 +60,29 @@ fun YLRPinned(
   item: CollectionPinnedItem,
   modifier: Modifier
 ) {
+  if (item.predefType == PredefCeType.COLLECTION && item.predefDyn.toIntOrNull() == 0) return // don't display "liked songs" if the rootlist is empty
+
+  val ylDelegate = LocalYlDelegate.current
+  var ownerUsername by remember { mutableStateOf(item.subtitle) }
+
+  // if user has pinned a playlist, fetch display name instead of uuid
+  LaunchedEffect(Unit) {
+    if (item.predefType == PredefCeType.ROOTLIST) {
+      ownerUsername = ylDelegate.getDisplayName(item.subtitle)
+    }
+  }
+
   Row(modifier) {
     val isPredef = item.predefType != null
 
-    if (isPredef) {
+    if (isPredef && item.predefType != PredefCeType.ROOTLIST) {
       ImagePreview(
-        if (item.predefType == PredefCeType.COLLECTION) Icons.Rounded.Favorite else Icons.Rounded.Podcasts,
+        when (item.predefType) {
+          PredefCeType.COLLECTION -> Icons.Rounded.Favorite
+          PredefCeType.EPISODES -> Icons.Rounded.Podcasts
+          PredefCeType.YOUR_EPISODES -> Icons.Rounded.Bookmark
+          PredefCeType.ROOTLIST, null -> Icons.Rounded.PlaylistPlay
+        },
         true,
         modifier = Modifier
           .size(64.dp)
@@ -58,13 +90,29 @@ fun YLRPinned(
       )
     } else {
       if (item.picture.isEmpty()) {
-        ImagePreview(
-          Icons.Rounded.Photo,
-          false,
-          modifier = Modifier
-            .size(64.dp)
-            .clip(RoundedCornerShape(8.dp))
-        )
+        var pic by remember { mutableStateOf<String?>(null) }
+
+        LaunchedEffect(Unit) {
+          pic = ylDelegate.getPinnedRootlistPicture(item.ceUri())
+        }
+
+        if (pic == null) {
+          ImagePreview(
+            Icons.Rounded.Photo,
+            false,
+            modifier = Modifier
+              .size(64.dp)
+              .clip(RoundedCornerShape(8.dp))
+          )
+        } else {
+          AsyncImage(
+            model = pic,
+            contentDescription = null,
+            modifier = Modifier
+              .size(64.dp)
+              .clip(RoundedCornerShape(8.dp))
+          )
+        }
       } else {
         AsyncImage(
           model = "https://i.scdn.co/image/${item.picture}",
@@ -81,9 +129,10 @@ fun YLRPinned(
         .padding(start = 16.dp)
         .align(Alignment.CenterVertically)) {
       Text(text = when (item.predefType) {
-        PredefCeType.COLLECTION -> stringResource(id = R.string.liked_songs)
-        PredefCeType.EPISODES -> stringResource(id = R.string.new_episodes)
-        null -> item.name
+        PredefCeType.COLLECTION -> stringResource(R.string.liked_songs)
+        PredefCeType.EPISODES -> stringResource(R.string.new_episodes)
+        PredefCeType.YOUR_EPISODES -> stringResource(R.string.your_episodes)
+        else -> item.name
       }, maxLines = 1, overflow = TextOverflow.Ellipsis)
       Row(Modifier.padding(top = 4.dp)) {
         Icon(Icons.Rounded.PushPin, tint = MaterialTheme.colorScheme.primary, contentDescription = null, modifier = Modifier
@@ -91,9 +140,11 @@ fun YLRPinned(
           .align(Alignment.CenterVertically))
         Text(
           text = when (item.predefType) {
-            PredefCeType.COLLECTION -> stringResource(id = R.string.liked_songs_desc, item.predefDyn)
-            PredefCeType.EPISODES -> stringResource(id = R.string.new_episodes_desc, item.predefDyn)
-            null -> item.subtitle
+            PredefCeType.COLLECTION -> stringResource(R.string.liked_songs_desc, item.predefDyn)
+            PredefCeType.EPISODES -> stringResource(R.string.new_episodes_desc, item.predefDyn)
+            PredefCeType.YOUR_EPISODES -> stringResource(R.string.saved_episodes)
+            PredefCeType.ROOTLIST -> ownerUsername
+            else -> item.subtitle
           },
           color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
           maxLines = 1,
@@ -112,12 +163,20 @@ fun YLRRootlist(
   item: CollectionRootlistItem,
   modifier: Modifier
 ) {
+  if (item.name.isEmpty()) return
+  val localYlDelegate = LocalYlDelegate.current
+  var playlistOwner by remember { mutableStateOf(item.ownerUsername) }
+
+  LaunchedEffect(Unit) {
+    playlistOwner = localYlDelegate.getDisplayName(item.ownerUsername)
+  }
+
   YLRGenericItem(
     picUrl = item.picture,
     picCircle = false,
     picPlaceholder = "playlist",
     title = item.name,
-    subtitle = item.ownerUsername,
+    subtitle = playlistOwner,
     modifier = modifier
   )
 }

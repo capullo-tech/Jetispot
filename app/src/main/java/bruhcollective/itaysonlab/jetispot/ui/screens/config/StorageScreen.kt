@@ -5,14 +5,37 @@ import android.text.format.Formatter
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Cached
+import androidx.compose.material.icons.rounded.Image
+import androidx.compose.material.icons.rounded.Save
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,7 +45,6 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,6 +53,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import bruhcollective.itaysonlab.jetispot.R
 import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
+import bruhcollective.itaysonlab.jetispot.core.collection.SpCollectionManager
 import bruhcollective.itaysonlab.jetispot.core.metadata_db.SpMetadataDb
 import bruhcollective.itaysonlab.jetispot.core.util.Device
 import bruhcollective.itaysonlab.jetispot.ui.ext.blendWith
@@ -41,7 +64,11 @@ import bruhcollective.itaysonlab.jetispot.ui.shared.PagingLoadingPage
 import coil.annotation.ExperimentalCoilApi
 import coil.imageLoader
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
@@ -88,6 +115,7 @@ fun StorageScreen(
 
           // 2-3. Header
           item("storageact") {
+            Spacer(Modifier.size(8.dp))
             ConfigCategory(text = stringResource(id = R.string.storage_actions))
           }
 
@@ -104,7 +132,7 @@ fun StorageScreen(
 }
 
 @Composable
-fun StorageComponentDetail(
+private fun StorageComponentDetail(
   type: StorageViewModel.StorageFileKind,
   size: String,
 ) {
@@ -112,7 +140,9 @@ fun StorageComponentDetail(
     Modifier
       .fillMaxWidth()
       .padding(horizontal = 16.dp)
-      .padding(top = 16.dp)) {
+      .padding(top = 16.dp),
+    verticalAlignment = Alignment.CenterVertically
+  ) {
     Icon(imageVector = type.icon, contentDescription = null, modifier = Modifier.size(28.dp))
 
     Column(Modifier.padding(start = 16.dp)) {
@@ -124,7 +154,7 @@ fun StorageComponentDetail(
 }
 
 @Composable
-fun StorageHeader(
+private fun StorageHeader(
   state: StorageViewModel.UiState.Ready
 ) {
   Column(Modifier.padding(horizontal = 16.dp)) {
@@ -164,7 +194,7 @@ fun StorageHeader(
         .height(16.dp), state.takenTotal, state.others, state.internalStorage.total
     )
 
-    Row(Modifier.padding(top = 4.dp, bottom = 8.dp)) {
+    Row(Modifier.padding(top = 8.dp, bottom = 8.dp)) {
       ProgressIndicatorLegend(
         modifier = Modifier.align(Alignment.CenterVertically),
         color = MaterialTheme.colorScheme.primary,
@@ -184,7 +214,7 @@ fun StorageHeader(
 }
 
 @Composable
-fun ProgressIndicatorLegend(
+private fun ProgressIndicatorLegend(
   modifier: Modifier = Modifier,
   color: Color,
   text: String
@@ -206,7 +236,7 @@ fun ProgressIndicatorLegend(
 }
 
 @Composable
-fun MultiStateProgressIndicator(
+private fun MultiStateProgressIndicator(
   modifier: Modifier,
   application: Long,
   others: Long,
@@ -236,7 +266,8 @@ fun MultiStateProgressIndicator(
 @HiltViewModel
 class StorageViewModel @Inject constructor(
   private val spSessionManager: SpSessionManager,
-  private val spMetadataDb: SpMetadataDb
+  private val spMetadataDb: SpMetadataDb,
+  private val spCollectionManager: SpCollectionManager
 ) : ViewModel() {
   val types = StorageFileKind.values()
   val clearActions = ClearAction.values()
@@ -290,6 +321,10 @@ class StorageViewModel @Inject constructor(
         }
 
         ClearAction.ClearMetadata -> spMetadataDb.clear()
+
+        ClearAction.ClearRootlist -> spCollectionManager.clearRootlist()
+
+        ClearAction.ClearDb -> spCollectionManager.clean()
       }
 
       load(context)
@@ -357,6 +392,8 @@ class StorageViewModel @Inject constructor(
     @StringRes val title: Int
   ) {
     ClearCaches(R.string.storage_clear),
-    ClearMetadata(R.string.storage_clear_metadata)
+    ClearMetadata(R.string.storage_clear_metadata),
+    ClearRootlist(R.string.clear_rootlist),
+    ClearDb(R.string.clear_db)
   }
 }

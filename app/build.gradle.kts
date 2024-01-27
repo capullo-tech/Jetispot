@@ -1,16 +1,16 @@
+import com.google.protobuf.gradle.*
 import java.io.FileInputStream
 import java.util.Properties
-import com.google.protobuf.gradle.*
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("dev.zacsweers.moshix") version "0.24.0"
+    id("dev.zacsweers.moshix") version "0.25.1"
     id("com.google.devtools.ksp")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
     id("com.google.protobuf") version "0.9.0"
-    kotlin("plugin.serialization") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.22"
 }
 
 apply(plugin = "dagger.hilt.android.plugin")
@@ -30,7 +30,7 @@ val room_version: String by rootProject.extra
 val librespot_commit: String by rootProject.extra
 val hilt_version: String by rootProject.extra
 
-val keystorePropertiesFile = rootProject.file("keystore.properties")
+val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
 
@@ -62,6 +62,7 @@ android {
         }.toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["disableAnalytics"] = "true"
 
         kapt {
             correctErrorTypes = true
@@ -145,7 +146,7 @@ android {
         disable.addAll(listOf("MissingTranslation", "ExtraTranslation"))
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/*.kotlin_module"
             excludes += "/META-INF/*.version"
@@ -181,7 +182,7 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
 
     // Compose
@@ -229,6 +230,7 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
     implementation("com.squareup.retrofit2:converter-protobuf:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Data - SQL
     implementation("androidx.room:room-runtime:$room_version")

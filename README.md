@@ -21,7 +21,7 @@ Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw
 - Basic playback with Spotify Connect support (Spotify Connect support is actually WIP)
 - Fairly optimized R8 rules, providing the release APKs with a size of 4-5mb (with the playback and protobuf parts!)
 
-## 📸 Screentshots
+## 📸 Screenshots
 
 <div>
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/60316747/205959791-b3f3098b-0d39-42b3-a4d0-3747245a8511.jpg" />

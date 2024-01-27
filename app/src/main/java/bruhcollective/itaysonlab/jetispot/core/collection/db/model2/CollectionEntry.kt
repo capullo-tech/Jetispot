@@ -8,5 +8,5 @@ interface CollectionEntry {
 }
 
 enum class PredefCeType {
-  COLLECTION, EPISODES
+  COLLECTION, EPISODES, YOUR_EPISODES, ROOTLIST
 }
