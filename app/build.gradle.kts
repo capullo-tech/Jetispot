@@ -160,6 +160,11 @@ android {
             excludes += "log4j2.xml"
             excludes += "**.proto"
         }
+        packaging {
+            jniLibs {
+                useLegacyPackaging = true
+            }
+        }
     }
     namespace = "bruhcollective.itaysonlab.jetispot"
 }
@@ -242,6 +247,9 @@ dependencies {
     implementation("androidx.datastore:datastore:1.0.0")
     implementation("com.google.protobuf:protobuf-java:3.25.1")
     implementation("com.tencent:mmkv:1.3.2")
+
+    // snapcast
+    implementation(project(mapOf("path" to ":lib-snapcast-android")))
 }
 
 //https://stackoverflow.com/questions/65390807/unresolved-reference-protoc-when-using-gradle-protocol-buffers

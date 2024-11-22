@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Jetispot"
 include(":app")
+include(":snapcast-deps")
+include(":lib-snapcast-android")
