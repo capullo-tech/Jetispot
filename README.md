@@ -1,3 +1,5 @@
+⚠️WARNING: Before anything else, it's important to note that Spotify seems to have shadow-banned this app. If you try to log in, you may receive an email alerting you to suspicious activity on your account, which will prompt you to change your password.
+---
 <div align="center">
 </div>
 <h1 align="center">Jetispot</h1>
