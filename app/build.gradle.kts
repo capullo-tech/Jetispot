@@ -21,8 +21,6 @@ val versionPatch = 6
 val versionBuild = 0
 val isStable = true
 
-val compose_version: String by rootProject.extra
-val compose_m3_version: String by rootProject.extra
 val compose_compiler_version: String by rootProject.extra
 val media2_version: String by rootProject.extra
 val accompanist_version: String by rootProject.extra
@@ -180,21 +178,21 @@ dependencies {
 
     // AndroidX
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.androidx.core.ktx)
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
 
     // Compose
     implementation("androidx.navigation:navigation-compose:2.7.6")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.material3:material3:$compose_m3_version")
-    implementation("androidx.compose.material:material-icons-extended:$compose_version")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
-    implementation("androidx.compose.ui:ui-util:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.util)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material.icons.extended)
+    debugImplementation(libs.androidx.ui.tooling)
     debugImplementation("androidx.customview:customview:1.2.0-alpha02")
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 
@@ -220,7 +218,7 @@ dependencies {
     implementation("androidx.media2:media2-player:$media2_version")
 
     // Librespot
-    implementation("com.github.iTaysonLab.librespot-java:librespot-player:$librespot_commit:thin") {
+    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:$librespot_commit:thin") {
         exclude(group = "xyz.gianlu.librespot", module = "librespot-sink")
         exclude(group = "com.lmax", module = "disruptor")
         exclude(group = "org.apache.logging.log4j")
