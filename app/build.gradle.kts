@@ -3,32 +3,20 @@ import java.io.FileInputStream
 import java.util.Properties
 
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
     id("dev.zacsweers.moshix") version "0.25.1"
-    id("com.google.devtools.ksp")
-    id("dagger.hilt.android.plugin")
-    id("kotlin-kapt")
+    alias(libs.plugins.hilt)
     id("com.google.protobuf") version "0.9.0"
     kotlin("plugin.serialization") version "1.9.22"
 }
-
-apply(plugin = "dagger.hilt.android.plugin")
 
 val versionMajor = 0
 val versionMinor = 1
 val versionPatch = 6
 val versionBuild = 0
 val isStable = true
-
-val compose_version: String by rootProject.extra
-val compose_m3_version: String by rootProject.extra
-val compose_compiler_version: String by rootProject.extra
-val media2_version: String by rootProject.extra
-val accompanist_version: String by rootProject.extra
-val room_version: String by rootProject.extra
-val librespot_commit: String by rootProject.extra
-val hilt_version: String by rootProject.extra
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
@@ -63,10 +51,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
-
-        kapt {
-            correctErrorTypes = true
-        }
 
         if (!splitApks) {
             ndk {
@@ -118,12 +102,12 @@ android {
 
     compileOptions {
         // coreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
         freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
     }
 
@@ -132,7 +116,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_compiler_version
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 
     applicationVariants.all {
@@ -180,28 +164,28 @@ dependencies {
 
     // AndroidX
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    implementation("androidx.core:core-ktx:1.12.0")
+    implementation(libs.androidx.core.ktx)
     implementation("androidx.palette:palette-ktx:1.0.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
 
     // Compose
     implementation("androidx.navigation:navigation-compose:2.7.6")
-    implementation("androidx.activity:activity-compose:1.8.2")
-    implementation("androidx.compose.material:material:$compose_version")
-    implementation("androidx.compose.material3:material3:$compose_m3_version")
-    implementation("androidx.compose.material:material-icons-extended:$compose_version")
-    implementation("androidx.compose.ui:ui:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling-preview:$compose_version")
-    implementation("androidx.compose.ui:ui-util:$compose_version")
-    implementation("androidx.compose.ui:ui-tooling:$compose_version")
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.util)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.material.icons.extended)
+    debugImplementation(libs.androidx.ui.tooling)
     debugImplementation("androidx.customview:customview:1.2.0-alpha02")
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 
     // Compose - Additions
-    implementation("com.google.accompanist:accompanist-navigation-material:$accompanist_version")
-    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanist_version")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanist_version")
+    implementation(libs.accompanist.navigation.material)
+    implementation(libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.systemuicontroller)
     implementation("io.github.fornewid:material-motion-compose-core:1.0.6")
     implementation("io.github.fornewid:material-motion-compose-navigation:1.0.6")
 
@@ -210,17 +194,17 @@ dependencies {
 
     // DI
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    ksp("com.google.dagger:hilt-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // Playback
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
     implementation("com.gitlab.mvysny.slf4j:slf4j-handroid:1.7.30")
-    implementation("androidx.media2:media2-session:$media2_version")
-    implementation("androidx.media2:media2-player:$media2_version")
+    implementation(libs.androidx.media2.session)
+    implementation(libs.androidx.media2.player)
 
     // Librespot
-    implementation("com.github.iTaysonLab.librespot-java:librespot-player:$librespot_commit:thin") {
+    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:b7b482c:thin") {
         exclude(group = "xyz.gianlu.librespot", module = "librespot-sink")
         exclude(group = "com.lmax", module = "disruptor")
         exclude(group = "org.apache.logging.log4j")
@@ -233,10 +217,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Data - SQL
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.room:room-paging:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 
     // Data - Proto
     implementation("androidx.datastore:datastore:1.0.0")
