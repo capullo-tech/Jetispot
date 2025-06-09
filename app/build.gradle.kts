@@ -8,7 +8,6 @@ plugins {
     alias(libs.plugins.ksp)
     id("dev.zacsweers.moshix") version "0.25.1"
     alias(libs.plugins.hilt)
-    id("kotlin-kapt")
     id("com.google.protobuf") version "0.9.0"
     kotlin("plugin.serialization") version "1.9.22"
 }
@@ -60,10 +59,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["disableAnalytics"] = "true"
-
-        kapt {
-            correctErrorTypes = true
-        }
 
         if (!splitApks) {
             ndk {
