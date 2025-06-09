@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     id("dev.zacsweers.moshix") version "0.25.1"
-    id("dagger.hilt.android.plugin")
+    alias(libs.plugins.hilt)
     id("kotlin-kapt")
     id("com.google.protobuf") version "0.9.0"
     kotlin("plugin.serialization") version "1.9.22"
@@ -26,7 +26,6 @@ val media2_version: String by rootProject.extra
 val accompanist_version: String by rootProject.extra
 val room_version: String by rootProject.extra
 val librespot_commit: String by rootProject.extra
-val hilt_version: String by rootProject.extra
 
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
@@ -208,8 +207,8 @@ dependencies {
 
     // DI
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.dagger:hilt-android:$hilt_version")
-    ksp("com.google.dagger:hilt-compiler:$hilt_version")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // Playback
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")

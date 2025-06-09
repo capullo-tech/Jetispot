@@ -9,15 +9,13 @@ buildscript {
     val room_version by extra("2.6.1")
 
     val librespot_commit by extra("b7b482c")
-    val hilt_version by extra("2.50")
 }
 
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.ksp) apply false
-    id("com.android.library") version "8.10.1" apply false
-    id("com.google.dagger.hilt.android") version "2.50" apply false
+    alias(libs.plugins.hilt) apply false
     kotlin("plugin.serialization") version "1.9.22" apply false
 }
 
