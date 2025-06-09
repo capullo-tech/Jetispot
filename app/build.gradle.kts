@@ -12,8 +12,6 @@ plugins {
     kotlin("plugin.serialization") version "1.9.22"
 }
 
-apply(plugin = "dagger.hilt.android.plugin")
-
 val versionMajor = 0
 val versionMinor = 1
 val versionPatch = 6
