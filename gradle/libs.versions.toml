@@ -1,4 +1,7 @@
 [versions]
+agp = "8.10.1"
+kotlin = "1.9.22"
+ksp = "1.9.22-1.0.16"
 coreKtx = "1.12.0"
 activityCompose = "1.8.2"
 material3 = "1.1.2"
@@ -16,3 +19,6 @@ androidx-material = { group = "androidx.compose.material", name = "material", ve
 androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "compose" }
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

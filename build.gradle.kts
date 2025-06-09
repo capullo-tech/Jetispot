@@ -13,11 +13,11 @@ buildscript {
 }
 
 plugins {
-    id("com.android.application") version "8.10.1" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.ksp) apply false
     id("com.android.library") version "8.10.1" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.22" apply false
     id("com.google.dagger.hilt.android") version "2.50" apply false
-    id("com.google.devtools.ksp") version "1.9.22-1.0.16" apply false
     kotlin("plugin.serialization") version "1.9.22" apply false
 }
 
