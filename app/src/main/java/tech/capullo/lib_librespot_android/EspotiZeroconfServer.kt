@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

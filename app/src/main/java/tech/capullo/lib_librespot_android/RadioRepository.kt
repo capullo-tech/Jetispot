@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import javax.inject.Inject
 import javax.inject.Singleton

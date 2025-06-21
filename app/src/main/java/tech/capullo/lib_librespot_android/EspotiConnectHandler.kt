@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import android.util.Log
 import com.google.gson.JsonObject

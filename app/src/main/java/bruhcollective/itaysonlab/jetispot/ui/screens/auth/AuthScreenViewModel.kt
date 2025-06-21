@@ -17,6 +17,7 @@ import bruhcollective.itaysonlab.jetispot.ui.screens.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import tech.capullo.lib_librespot_android.EspotiNsdManager
 import javax.inject.Inject
 
 @Stable

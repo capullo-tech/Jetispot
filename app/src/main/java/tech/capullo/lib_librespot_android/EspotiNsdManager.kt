@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import android.net.nsd.NsdManager
 import android.net.nsd.NsdServiceInfo
@@ -18,7 +18,7 @@ class EspotiNsdManager @Inject constructor(
         val listeningPort = server.initAndGetPort()
 
         val serviceInfo = NsdServiceInfo().apply {
-            serviceName = "RadioCapullo"
+            serviceName = "Jetispot"
             serviceType = "_spotify-connect._tcp"
             port = listeningPort
         }

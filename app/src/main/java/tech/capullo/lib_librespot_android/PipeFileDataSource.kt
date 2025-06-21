@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import android.content.Context
 import android.system.Os.mkfifo

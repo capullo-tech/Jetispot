@@ -1,4 +1,4 @@
-package bruhcollective.itaysonlab.jetispot.ui.screens.auth
+package tech.capullo.lib_librespot_android
 
 import android.content.Context
 import androidx.core.content.edit
@@ -23,7 +23,7 @@ class EspotiSessionRepository @Inject constructor(
 ) {
 
     // Session configuration properties
-    val espotiDeviceName: String = "RadioCapullo - ${radioRepository.getDeviceName()}"
+    val espotiDeviceName: String = "Jetispot - ${radioRepository.getDeviceName()}"
     val espotiDeviceType: Connect.DeviceType = Connect.DeviceType.SPEAKER
     val espotiDeviceId: String = loadEspotiDeviceID()
 
