@@ -15,6 +15,7 @@ import bruhcollective.itaysonlab.jetispot.proto.AudioQuality
 import bruhcollective.itaysonlab.jetispot.ui.navigation.NavigationController
 import bruhcollective.itaysonlab.jetispot.ui.screens.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,11 +25,17 @@ class AuthScreenViewModel @Inject constructor(
     private val authManager: SpAuthManager,
     private val resources: Resources,
     private val spSessionManager: SpSessionManager,
-    private val spConfigurationManager: SpConfigurationManager
+    private val spConfigurationManager: SpConfigurationManager,
+    private val espotiNsdManager: EspotiNsdManager,
 ) : ViewModel() {
     private val _isAuthInProgress = mutableStateOf(false)
     val isAuthInProgress: State<Boolean> = _isAuthInProgress
 
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            espotiNsdManager.start()
+        }
+    }
     fun onLoginSuccess(navController: NavigationController) {
         navController.navigateAndClearStack(Screen.Feed)
         upgradeAudioQualityIfPremium()

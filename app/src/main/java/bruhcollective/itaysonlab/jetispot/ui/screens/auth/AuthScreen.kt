@@ -11,9 +11,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(
+    viewModel: AuthScreenViewModel = hiltViewModel()
+) {
+    AuthScreenContent()
+}
+
+@Composable
+fun AuthScreenContent() {
 
     Column(
         modifier = Modifier
@@ -63,5 +71,5 @@ fun AuthScreen() {
 @Preview(locale = "es")
 @Composable
 fun AuthScreenPreview() {
-    AuthScreen()
+    AuthScreenContent()
 }
