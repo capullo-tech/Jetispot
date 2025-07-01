@@ -18,12 +18,6 @@ val versionPatch = 6
 val versionBuild = 0
 val isStable = true
 
-val compose_compiler_version: String by rootProject.extra
-val media2_version: String by rootProject.extra
-val accompanist_version: String by rootProject.extra
-val room_version: String by rootProject.extra
-val librespot_commit: String by rootProject.extra
-
 val keystorePropertiesFile: File = rootProject.file("keystore.properties")
 
 val splitApks = !project.hasProperty("noSplits")
@@ -122,7 +116,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = compose_compiler_version
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 
     applicationVariants.all {
@@ -189,9 +183,9 @@ dependencies {
     debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
 
     // Compose - Additions
-    implementation("com.google.accompanist:accompanist-navigation-material:$accompanist_version")
-    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanist_version")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanist_version")
+    implementation(libs.accompanist.navigation.material)
+    implementation(libs.accompanist.navigation.animation)
+    implementation(libs.accompanist.systemuicontroller)
     implementation("io.github.fornewid:material-motion-compose-core:1.0.6")
     implementation("io.github.fornewid:material-motion-compose-navigation:1.0.6")
 
@@ -206,11 +200,11 @@ dependencies {
     // Playback
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
     implementation("com.gitlab.mvysny.slf4j:slf4j-handroid:1.7.30")
-    implementation("androidx.media2:media2-session:$media2_version")
-    implementation("androidx.media2:media2-player:$media2_version")
+    implementation(libs.androidx.media2.session)
+    implementation(libs.androidx.media2.player)
 
     // Librespot
-    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:$librespot_commit:thin") {
+    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:b7b482c:thin") {
         exclude(group = "xyz.gianlu.librespot", module = "librespot-sink")
         exclude(group = "com.lmax", module = "disruptor")
         exclude(group = "org.apache.logging.log4j")
@@ -223,10 +217,10 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
     // Data - SQL
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    implementation("androidx.room:room-paging:$room_version")
-    ksp("androidx.room:room-compiler:$room_version")
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
 
     // Data - Proto
     implementation("androidx.datastore:datastore:1.0.0")
