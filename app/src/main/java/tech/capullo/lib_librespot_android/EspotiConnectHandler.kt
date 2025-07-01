@@ -1,6 +1,7 @@
 package tech.capullo.lib_librespot_android
 
 import android.util.Log
+import bruhcollective.itaysonlab.jetispot.core.SpSessionManager
 import com.google.gson.JsonObject
 import com.spotify.connectstate.Connect
 import kotlinx.coroutines.coroutineScope
@@ -24,12 +25,12 @@ import javax.crypto.spec.SecretKeySpec
 import javax.inject.Inject
 
 class EspotiConnectHandler @Inject constructor(
-    val espotiSessionRepository: EspotiSessionRepository,
+    val spSessionManager: SpSessionManager,
 ) {
 
-    val deviceType: Connect.DeviceType = espotiSessionRepository.espotiDeviceType
-    val deviceName: String = espotiSessionRepository.espotiDeviceName
-    val deviceId: String = espotiSessionRepository.espotiDeviceId
+    val deviceType: Connect.DeviceType = spSessionManager.spSessionDeviceType
+    val deviceName: String = spSessionManager.spSessionDeviceName
+    val deviceId: String = spSessionManager.spSessionDeviceId
     val keys: DiffieHellman = DiffieHellman(SecureRandom())
 
     // Return true if the connection was handled successfully and the espoti connect session
@@ -210,8 +211,8 @@ class EspotiConnectHandler @Inject constructor(
             out.write(resp.toByteArray())
             out.flush()
 
-            espotiSessionRepository.createAndSetupSession(username, decrypted)
-            // TODO: some sort of retry mechanism if the session creation fails
+            //espotiSessionRepository.createAndSetupSession(username, decrypted)
+            // TODO
             return true
         } catch (_: Exception) {
             out.write(httpVersion.toByteArray())

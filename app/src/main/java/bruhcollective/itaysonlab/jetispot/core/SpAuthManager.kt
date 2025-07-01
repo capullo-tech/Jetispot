@@ -55,6 +55,6 @@ class SpAuthManager @Inject constructor(
 
     fun reset() {
         Log.i("SpAuthManager", "resetting session")
-        File(spSessionManager.appContext.filesDir, "spa_creds").delete()
+        File(spSessionManager.appContext.filesDir, SpSessionManager.SP_CREDENTIALS_FILE).delete()
     }
 }

@@ -37,6 +37,7 @@ class AuthScreenViewModel @Inject constructor(
             espotiNsdManager.start()
         }
     }
+
     fun onLoginSuccess(navController: NavigationController) {
         navController.navigateAndClearStack(Screen.Feed)
         upgradeAudioQualityIfPremium()
