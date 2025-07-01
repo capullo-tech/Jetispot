@@ -5,6 +5,8 @@ import androidx.core.content.edit
 import bruhcollective.itaysonlab.jetispot.core.util.SpUtils
 import com.spotify.connectstate.Connect
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import xyz.gianlu.librespot.common.Utils
 import xyz.gianlu.librespot.core.Session
 import java.io.File
@@ -19,6 +21,15 @@ class SpSessionManager @Inject constructor(
 ) {
     private var _session: Session? = null
     val session get() = _session ?: throw IllegalStateException("Session is not created yet!")
+
+    sealed class SessionState {
+        object Created : SessionState()
+        data class Error(val message: String) : SessionState()
+    }
+
+    // Listeners to this flow: [RadioBroadcasterService], [RadioBroadcasterViewModel]
+    private val _sessionState = MutableStateFlow<SessionState?>(null)
+    val sessionState = _sessionState.asStateFlow()
 
     val spSessionDeviceName: String = SpUtils.getDeviceName(appContext)
     val spSessionDeviceType: Connect.DeviceType = Connect.DeviceType.SMARTPHONE
@@ -59,9 +70,21 @@ class SpSessionManager @Inject constructor(
         .setStoredCredentialsFile(File(appContext.filesDir, SP_CREDENTIALS_FILE ))
         .build()
 
+    fun createAndSetupSession(username: String, decryptedBlob: ByteArray) {
+        try {
+            val newSession = createSession()
+                .blob(username, decryptedBlob)
+                .create()
+            setSession(newSession)
+        } catch (e: Exception) {
+            val errorMessage = e.message ?: "Failed to create session"
+            _sessionState.value = SessionState.Error(errorMessage)
+        }
+    }
     fun isSignedIn() = _session?.isValid == true
     fun setSession(s: Session) {
         _session = s
+        _sessionState.value = SessionState.Created
     }
 
     companion object {

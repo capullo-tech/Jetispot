@@ -211,8 +211,7 @@ class EspotiConnectHandler @Inject constructor(
             out.write(resp.toByteArray())
             out.flush()
 
-            //espotiSessionRepository.createAndSetupSession(username, decrypted)
-            // TODO
+            spSessionManager.createAndSetupSession(username, decrypted)
             return true
         } catch (_: Exception) {
             out.write(httpVersion.toByteArray())

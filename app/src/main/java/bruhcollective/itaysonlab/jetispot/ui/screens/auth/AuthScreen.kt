@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -12,12 +13,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import bruhcollective.itaysonlab.jetispot.ui.navigation.LocalNavigationController
 
 @Composable
 fun AuthScreen(
     viewModel: AuthScreenViewModel = hiltViewModel()
 ) {
-    AuthScreenContent()
+    val navController = LocalNavigationController.current
+
+    if (viewModel.isAuthInProgress.value) {
+        AuthScreenContent()
+    } else {
+        LaunchedEffect(Unit) {
+            viewModel.onAuthSuccess(navController)
+        }
+    }
 }
 
 @Composable
