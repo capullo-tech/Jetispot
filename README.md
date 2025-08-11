@@ -21,6 +21,7 @@ Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw
 ## 📸 Screenshots
 
 <div>
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/c2e1863f-2fae-440c-9807-7dced7e0ceb8" />
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/60316747/205959791-b3f3098b-0d39-42b3-a4d0-3747245a8511.jpg" />
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/60316747/205959820-481963c3-6159-4ccd-adea-f788d7480d83.jpg" />
 <img width="300" alt="image" src="https://user-images.githubusercontent.com/60316747/205959868-e82b2278-b1a8-4577-a485-486dec5d9f11.jpg" />
