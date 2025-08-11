@@ -1,5 +1,3 @@
-⚠️WARNING: Before anything else, it's important to note that Spotify seems to have shadow-banned this app. If you try to log in, you may receive an email alerting you to suspicious activity on your account, which will prompt you to change your password.
----
 <div align="center">
 </div>
 <h1 align="center">Jetispot</h1>
@@ -10,14 +8,11 @@ A Spotify unofficial client built with Jetpack Compose, Material You/3 and libre
 
 </div>
 
-## INFO
-I will be working on Jetispot as soon as I can, but at the moment I'm remaking Spowlo; now it will be a song downloader app (https://github.com/BobbyESP/Spowlo/tree/remake-2). Once I finish, I will improve this client. Thank you all!
-
 ## 📣 NOTICE
 Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw file downloading is prohibted by ToS and will NEVER be implemented in Jetispot. Don't waste your time trying to request these features.
 
 ## 🔮 App features
-- Sign In (login/pass only, no FB/Meta/Google support, no Smart Lock either) 
+- Spotify Connect: Select Jetispot as a playback device from the Spotify app (requires to be on the same LAN)
 - "Browse", "Home", Album, Premium Plans overview, Artists and Genres screens (some of the blocks might be unsupported).
 - Library: "liked songs" with tag & sort support, rootlist (liked playlists) + pins + artist/album support with nice animations, delta updates and also pub/sub processing support
 - Basic playback with Spotify Connect support (Spotify Connect support is actually WIP)
