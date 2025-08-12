@@ -1,14 +1,17 @@
 [versions]
-agp = "8.11.0"
+agp = "8.12.0"
 accompanist = "0.33.0-alpha"
 activityCompose = "1.8.2"
 compose = "1.5.0"
 coreKtx = "1.12.0"
 hilt = "2.50"
 kotlin = "1.9.22"
+kotlinxSerializationJson = "1.6.2"
 ksp = "1.9.22-1.0.16"
 material3 = "1.1.2"
 media2 = "1.2.1"
+moshix = "0.25.1"
+protobufPlugin = "0.9.0"
 room = "2.6.1"
 
 [libraries]
@@ -32,9 +35,13 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin"}
+moshix = { id = "dev.zacsweers.moshix", version.ref = "moshix" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }

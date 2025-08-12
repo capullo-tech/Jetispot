@@ -6,10 +6,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
-    id("dev.zacsweers.moshix") version "0.25.1"
     alias(libs.plugins.hilt)
-    id("com.google.protobuf") version "0.9.0"
-    kotlin("plugin.serialization") version "1.9.22"
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.protobuf)
+    alias(libs.plugins.moshix)
 }
 
 val versionMajor = 0
@@ -160,7 +160,7 @@ ksp {
 dependencies {
     // Kotlin
     implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation(libs.kotlinx.serialization.json)
 
     // AndroidX
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
