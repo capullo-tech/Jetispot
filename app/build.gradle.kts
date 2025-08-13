@@ -1,4 +1,3 @@
-import com.google.protobuf.gradle.*
 import java.io.FileInputStream
 import java.util.Properties
 
@@ -114,6 +113,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     applicationVariants.all {
@@ -202,7 +202,7 @@ dependencies {
     implementation(libs.androidx.media2.player)
 
     // Librespot
-    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:b7b482c:thin") {
+    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:58350e2:thin") {
         exclude(group = "xyz.gianlu.librespot", module = "librespot-sink")
         exclude(group = "com.lmax", module = "disruptor")
         exclude(group = "org.apache.logging.log4j")

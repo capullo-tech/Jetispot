@@ -1,5 +1,3 @@
-<div align="center">
-</div>
 <h1 align="center">Jetispot</h1>
 
 <div align="center">
@@ -15,7 +13,6 @@ Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw
 - Spotify Connect: Select Jetispot as a playback device from the Spotify app (requires to be on the same LAN)
 - "Browse", "Home", Album, Premium Plans overview, Artists and Genres screens (some of the blocks might be unsupported).
 - Library: "liked songs" with tag & sort support, rootlist (liked playlists) + pins + artist/album support with nice animations, delta updates and also pub/sub processing support
-- Basic playback with Spotify Connect support (Spotify Connect support is actually WIP)
 - Fairly optimized R8 rules, providing the release APKs with a size of 4-5mb (with the playback and protobuf parts!)
 
 ## 📸 Screenshots
