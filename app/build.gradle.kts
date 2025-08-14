@@ -156,18 +156,18 @@ ksp {
 
 dependencies {
     // Kotlin
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
+    implementation(libs.kotlinx.datetime)
     implementation(libs.kotlinx.serialization.json)
 
     // AndroidX
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
-    implementation("androidx.palette:palette-ktx:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
-    implementation("androidx.appcompat:appcompat:1.7.0-alpha03")
+    implementation(libs.androidx.palette.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.appcompat)
 
     // Compose
-    implementation("androidx.navigation:navigation-compose:2.7.6")
+    implementation(libs.androidx.navigation.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui)
@@ -177,8 +177,8 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.material.icons.extended)
     debugImplementation(libs.androidx.compose.ui.tooling)
-    debugImplementation("androidx.customview:customview:1.2.0-alpha02")
-    debugImplementation("androidx.customview:customview-poolingcontainer:1.0.0")
+    debugImplementation(libs.androidx.customview)
+    debugImplementation(libs.androidx.customview.poolingcontainer)
 
     // Compose - Additions
     implementation(libs.accompanist.navigation.material)
@@ -188,16 +188,16 @@ dependencies {
     implementation("io.github.fornewid:material-motion-compose-navigation:1.0.6")
 
     // Images
-    implementation("io.coil-kt:coil-compose:2.2.2")
+    implementation(libs.coil.compose)
 
     // DI
-    implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
     // Playback
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
-    implementation("com.gitlab.mvysny.slf4j:slf4j-handroid:1.7.30")
+    implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.slf4j.handroid)
     implementation(libs.androidx.media2.session)
     implementation(libs.androidx.media2.player)
 

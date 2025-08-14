@@ -2,21 +2,34 @@
 agp = "8.12.0"
 accompanist = "0.33.0-alpha"
 activityCompose = "1.8.2"
+appcompat = "1.7.1"
+coilCompose = "2.2.2"
 composeBom = "2023.08.00"
 coreKtx = "1.12.0"
+customview = "1.2.0"
+customviewPoolingcontainer = "1.0.0"
+desugar_jdk_libs = "2.0.4"
 hilt = "2.50"
+hiltNavigationCompose = "1.1.0"
 kotlin = "2.0.0"
-kotlinxSerializationJson = "1.6.2"
+kotlinxCoroutinesGuava = "1.7.3"
+kotlinxDatetime = "0.4.1"
+kotlinxSerializationJson = "1.6.3"
 ksp = "2.0.0-1.0.21"
+lifecycleRuntimeKtx = "2.7.0"
 media2 = "1.2.1"
-moshix = "0.27.0"
-protobufPlugin = "0.9.0"
+moshix = "0.27.2"
+navigationCompose = "2.7.7"
+paletteKtx = "1.0.0"
+protobufPlugin = "0.9.5"
 room = "2.6.1"
+slf4jHandroid = "1.7.30"
 
 [libraries]
 accompanist-navigation-material = { group = "com.google.accompanist", name = "accompanist-navigation-material", version.ref = "accompanist" }
 accompanist-navigation-animation = { group = "com.google.accompanist", name = "accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -27,15 +40,26 @@ androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "u
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-compose-material = { group = "androidx.compose.material", name = "material" }
 androidx-compose-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended" }
+androidx-customview = { module = "androidx.customview:customview", version.ref = "customview" }
+androidx-customview-poolingcontainer = { module = "androidx.customview:customview-poolingcontainer", version.ref = "customviewPoolingcontainer" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-media2-session = { group = "androidx.media2", name = "media2-session", version.ref = "media2" }
 androidx-media2-player = { group = "androidx.media2", name = "media2-player", version.ref = "media2" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "paletteKtx" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+kotlinx-coroutines-guava = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-guava", version.ref = "kotlinxCoroutinesGuava" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+slf4j-handroid = { module = "com.gitlab.mvysny.slf4j:slf4j-handroid", version.ref = "slf4jHandroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
