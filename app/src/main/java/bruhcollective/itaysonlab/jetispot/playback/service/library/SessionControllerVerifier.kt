@@ -135,7 +135,7 @@ class SessionControllerVerifier @Inject constructor(
     }
 
     private fun packageSignature(of: String) = packageManager.getPackageInfo(of, pmFlags() or PackageManager.GET_PERMISSIONS).let { packageInfo ->
-        InstalledPackageInfo(packageInfo.activePermissions() to (if (pmNewSignaturesSupported()) packageInfo.sha256SignaturesModern() else packageInfo.sha256SignaturesLegacy())?.asSha256())
+        InstalledPackageInfo((packageInfo.activePermissions() to (if (pmNewSignaturesSupported()) packageInfo.sha256SignaturesModern() else packageInfo.sha256SignaturesLegacy())?.asSha256()) as Pair<List<String>, String?>)
     }
 
     private fun ByteArray.asSha256(): String {
@@ -153,12 +153,12 @@ class SessionControllerVerifier @Inject constructor(
     private fun pmFlags() = if (pmNewSignaturesSupported()) PackageManager.GET_SIGNING_CERTIFICATES else PackageManager.GET_SIGNATURES
 
     @RequiresApi(Build.VERSION_CODES.P)
-    private fun PackageInfo.sha256SignaturesModern() = this.signingInfo.signingCertificateHistory?.firstOrNull()?.toByteArray()
+    private fun PackageInfo.sha256SignaturesModern() = this.signingInfo?.signingCertificateHistory?.firstOrNull()?.toByteArray()
 
     @Suppress("DEPRECATION")
-    private fun PackageInfo.sha256SignaturesLegacy() = this.signatures.firstOrNull()?.toByteArray()
+    private fun PackageInfo.sha256SignaturesLegacy() = this.signatures?.firstOrNull()?.toByteArray()
 
-    private fun PackageInfo.activePermissions() = requestedPermissions.mapIndexedNotNull { index, permission ->
-        if ((requestedPermissionsFlags[index] and PackageInfo.REQUESTED_PERMISSION_GRANTED) != 0) permission else null
+    private fun PackageInfo.activePermissions() = requestedPermissions?.mapIndexedNotNull { index, permission ->
+        if ((requestedPermissionsFlags?.get(index)?.and(PackageInfo.REQUESTED_PERMISSION_GRANTED)) != 0) permission else null
     }
 }

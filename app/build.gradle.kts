@@ -37,13 +37,13 @@ android {
         }
     }
 
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "bruhcollective.itaysonlab.jetispot"
 
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1000
         versionName = StringBuilder("${versionMajor}.${versionMinor}.${versionPatch}").apply {
             if (!isStable) append("-beta.${versionBuild}")

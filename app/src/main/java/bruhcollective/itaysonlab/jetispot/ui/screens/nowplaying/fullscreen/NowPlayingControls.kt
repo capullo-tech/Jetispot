@@ -182,7 +182,7 @@ private fun ControlsMainButtons(
             .clip(CircleShape)
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(color = systemThemeColor(alpha = 1f))
+                indication = ripple(color = systemThemeColor(alpha = 1f))
             ) {
                 viewModel.togglePlayPause()
             }) {
