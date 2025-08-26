@@ -58,10 +58,12 @@ class MainActivity : ComponentActivity() {
 
     private var provider: (() -> NavController)? = null
 
+    /*
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         provider?.invoke()?.handleDeepLink(intent)
     }
+     */
 
     override fun onDestroy() {
         provider = null
