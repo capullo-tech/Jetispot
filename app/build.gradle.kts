@@ -184,8 +184,8 @@ dependencies {
     implementation(libs.accompanist.navigation.material)
     implementation(libs.accompanist.navigation.animation)
     implementation(libs.accompanist.systemuicontroller)
-    implementation("io.github.fornewid:material-motion-compose-core:1.0.6")
-    implementation("io.github.fornewid:material-motion-compose-navigation:1.0.6")
+    implementation(libs.material.motion.compose.core)
+    implementation(libs.material.motion.compose.navigation)
 
     // Images
     implementation(libs.coil.compose)
@@ -209,21 +209,20 @@ dependencies {
     }
 
     // Data - Network
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
-    implementation("com.squareup.retrofit2:converter-protobuf:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.moshi)
+    implementation(libs.converter.protobuf)
+    implementation(libs.logging.interceptor)
 
     // Data - SQL
     implementation(libs.androidx.room.runtime)
-    //implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
     ksp(libs.androidx.room.compiler)
 
     // Data - Proto
-    implementation("androidx.datastore:datastore:1.0.0")
-    implementation("com.google.protobuf:protobuf-java:3.25.1")
-    implementation("com.tencent:mmkv:1.3.2")
+    implementation(libs.androidx.datastore)
+    implementation(libs.protobuf.java)
+    implementation(libs.mmkv)
 }
 
 //https://stackoverflow.com/questions/65390807/unresolved-reference-protoc-when-using-gradle-protocol-buffers
