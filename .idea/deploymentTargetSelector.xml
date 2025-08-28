@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-08-28T02:30:42.987702150Z">
+        <DropdownSelection timestamp="2025-08-28T02:42:54.568007988Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="Default" identifier="serial=192.168.0.242:37113;connection=fdc04ba9" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=/home/gio/.config/.android/avd/Pixel_5.avd" />
             </handle>
           </Target>
         </DropdownSelection>
