@@ -1,0 +1,4 @@
+[submodule "vendor/librespot-java"]
+	path = vendor/librespot-java
+	url = https://github.com/capullo-tech/librespot-java.git
+	branch = dev-jsp

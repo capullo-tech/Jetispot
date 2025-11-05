@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Jetispot"
 include(":app")
+include(":librespot")

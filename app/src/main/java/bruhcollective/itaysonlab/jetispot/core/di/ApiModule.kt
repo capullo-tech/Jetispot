@@ -32,9 +32,9 @@ object ApiModule {
   fun provideOkHttpClient(tokenHandler: ClientTokenHandler, sessionManager: SpSessionManager): OkHttpClient = OkHttpClient.Builder().apply {
     interceptRequest { orig ->
       // 1. Authorization (& client token)
-      header("Authorization", "Bearer ${sessionManager.session.tokens().get("playlist-read")}")
+      header("Authorization", "Bearer ${sessionManager.session.tokens().get()}")
       if(BuildConfig.DEBUG){
-        Log.d("Authorization Bearer token", "Bearer ${sessionManager.session.tokens().get("playlist-read")}")
+        Log.d("Authorization Bearer token", "Bearer ${sessionManager.session.tokens().get()}")
       }
       header("client-token", tokenHandler.requestToken())
       if(BuildConfig.DEBUG){

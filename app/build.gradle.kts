@@ -205,11 +205,7 @@ dependencies {
     implementation(libs.androidx.media2.player)
 
     // Librespot
-    implementation("com.github.gsalinaslopez.librespot-java:librespot-player:58350e2:thin") {
-        exclude(group = "xyz.gianlu.librespot", module = "librespot-sink")
-        exclude(group = "com.lmax", module = "disruptor")
-        exclude(group = "org.apache.logging.log4j")
-    }
+    implementation(project(":librespot"))
 
     // Data - Network
     implementation(libs.retrofit)

@@ -1,5 +1,5 @@
 [versions]
-agp = "8.12.1"
+agp = "8.13.0"
 accompanist = "0.33.0-alpha" # max: 0.36.0 https://mvnrepository.com/artifact/com.google.accompanist/accompanist-navigation-animation
 activityCompose = "1.9.3" # max: 1.10.1 https://mvnrepository.com/artifact/androidx.activity/activity-compose?
 appcompat = "1.7.1"
@@ -18,9 +18,9 @@ hiltNavigationCompose = "1.2.0" # max: https://mvnrepository.com/artifact/androi
 kotlin = "2.2.10"
 kotlinxCoroutinesGuava = "1.10.2" # max: https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-guava
 kotlinxDatetime = "0.6.2" # max: 0.7.1 https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-datetime
-kotlinxSerializationJson = "1.8.1" # max: 1.9.0 https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json
+kotlinxSerializationJson = "1.9.0" # https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-serialization-json
 ksp = "2.2.10-2.0.2"
-lifecycleRuntimeKtx = "2.9.2" # max: 2.8.7 https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime-ktx?p=2
+lifecycleRuntimeKtx = "2.9.2" # https://mvnrepository.com/artifact/androidx.lifecycle/lifecycle-runtime-ktx?p=2
 loggingInterceptor = "4.12.0" # max: 5.1.0 https://mvnrepository.com/artifact/com.squareup.okhttp3/logging-interceptor
 materialMotionComposeCore = "2.0.1" # max: 2.0.1 https://mvnrepository.com/artifact/io.github.fornewid/material-motion-compose-core
 materialMotionComposeNavigation = "1.1.3" # max: 1.1.3 https://mvnrepository.com/artifact/io.github.fornewid/material-motion-compose-navigation
@@ -81,6 +81,7 @@ slf4j-handroid = { module = "com.gitlab.mvysny.slf4j:slf4j-handroid", version.re
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
