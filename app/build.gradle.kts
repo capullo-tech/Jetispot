@@ -205,7 +205,7 @@ dependencies {
     implementation(libs.androidx.media2.player)
 
     // Librespot
-    implementation(project(":librespot"))
+    implementation(project(":librespot-android"))
 
     // Data - Network
     implementation(libs.retrofit)

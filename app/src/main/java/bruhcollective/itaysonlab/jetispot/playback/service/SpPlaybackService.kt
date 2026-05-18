@@ -56,9 +56,12 @@ class SpPlaybackService : MediaLibraryService(), CoroutineScope by CoroutineScop
     audioFocusManager.requestFocus()
     playerWrapper = SpPlayerWrapper(this)
 
+    // Do NOT call player.waitReady() here — playbackExecutor is single-threaded and is
+    // also the MediaLibrarySession callback executor. waitReady() blocks until Spotify
+    // Connect device registration completes; if the connection_id dealer message races
+    // and is dropped, it blocks forever, wedging the MediaController handshake.
     playerWrapper.runOnPlayback {
       spPlayerManager.player().addEventsListener(SpServiceEventsListener(playerWrapper))
-      spPlayerManager.player().waitReady()
     }
 
     mediaLibrarySession =

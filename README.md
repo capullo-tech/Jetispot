@@ -44,22 +44,7 @@ Spotify Premium account is **REQUIRED***. Offline caching, DRM bypassing, or raw
 - Preferences: Jetpack Datastore (proto)
 
 ## 🛠️ Building locally
-The playback core ([librespot-java](https://github.com/capullo-tech/librespot-java), `dev-jsp` branch) is vendored as a git submodule at `vendor/librespot-java` and compiled by the `:librespot` Gradle module. You must initialize it before the project will build.
-
-Fresh clone:
-```sh
-git clone --recurse-submodules https://github.com/BobbyESP/Jetispot.git
-```
-
-Already cloned without submodules:
-```sh
-git submodule update --init --recursive
-```
-
-To pull upstream changes to the submodule later:
-```sh
-git submodule update --remote --recursive
-```
+The playback core ([librespot-java](https://github.com/capullo-tech/librespot-java)) is vendored natively under the `librespot-android/` module. No special setup beyond `./gradlew` is needed.
 
 ## ⬇️ Downloads
 You can go to the [releases page](https://github.com/BobbyESP/Jetispot/releases) and download any version updated.
