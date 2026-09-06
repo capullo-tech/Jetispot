@@ -1,0 +1,4 @@
+[submodule "lib-librespot-android"]
+	path = lib-librespot-android
+	url = https://github.com/capullo-tech/lib-librespot-android.git
+	branch = master
