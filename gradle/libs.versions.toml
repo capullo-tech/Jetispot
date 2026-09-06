@@ -1,5 +1,7 @@
 [versions]
 agp = "8.13.0"
+compileSdk = "36"
+minSdk = "23"
 accompanist = "0.33.0-alpha" # max: 0.36.0 https://mvnrepository.com/artifact/com.google.accompanist/accompanist-navigation-animation
 activityCompose = "1.9.3" # max: 1.10.1 https://mvnrepository.com/artifact/androidx.activity/activity-compose?
 appcompat = "1.7.1"

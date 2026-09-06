@@ -18,4 +18,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Jetispot"
 include(":app")
-include(":librespot-android")
+include(":lib-librespot-android")
